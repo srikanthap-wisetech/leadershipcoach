@@ -186,20 +186,17 @@
       "title": "How do you keep feedback clear without making the conversation feel heavy?",
       "content": "I want my feedback conversations to be more useful and less loaded. I am interested in phrasing or structures that help keep the conversation grounded in behaviour and impact.",
       "liked_by": [
-        "leader-priya",
-        "leader-alex"
+        "leader-priya"
       ],
       "created_at": "2026-04-17T04:59:56.886317Z",
-      "updated_at": "2026-04-17T08:17:37.834838Z",
+      "updated_at": "2026-04-17T04:59:56.886317Z",
       "replies": [
         {
           "reply_id": "e272f32f-dd8c-40a7-b533-c7a00047e0f4",
           "thread_id": "24eef098-37b2-41df-a056-4af95ca9c5dd",
           "user_id": "leader-priya",
           "content": "I have started asking permission before I give developmental feedback. It changes the tone immediately and makes the conversation feel more shared than corrective.",
-          "liked_by": [
-            "leader-alex"
-          ],
+          "liked_by": [],
           "created_at": "2026-04-17T04:59:56.886319Z"
         },
         {

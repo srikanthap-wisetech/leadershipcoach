@@ -8,17 +8,31 @@
 </head>
 <body data-theme="sunrise">
   <main class="page">
-    <nav class="topnav">
-      <a class="topnav-link" href="/journal">Journal</a>
-      <a class="topnav-link" href="/community">Community</a>
-      {% if current_user.role.value in ["administrator", "people-leadership"] %}
-      <a class="topnav-link active" href="/admin">Administrator</a>
-      <a class="topnav-link" href="/people-leadership">People Leadership</a>
-      {% endif %}
-    </nav>
+    <div class="page-header">
+      <div class="header-left">
+        <div class="portal-brandbar">
+          <span class="portal-brand-badge">
+            <img src="https://www.wisetechglobal.com/media/e5ebuyzp/wisetech-global-device-white.svg?height=62&mode=max&width=75" alt="WiseTech Global logo">
+          </span>
+          <div class="portal-brand-copy">
+            <p class="portal-brand-name">WiseTech Global</p>
+            <p class="portal-brand-subtitle">LeadWise</p>
+          </div>
+        </div>
+        <nav class="topnav">
+          <a class="topnav-link" href="/">Home</a>
+          <a class="topnav-link" href="/journal">Journal</a>
+          <a class="topnav-link" href="/community">Community</a>
+          {% if current_user.role.value in ["administrator", "people-leadership"] %}
+          <a class="topnav-link active" href="/admin">Administrator</a>
+          <a class="topnav-link" href="/people-leadership">People Leadership</a>
+          {% endif %}
+        </nav>
+      </div>
+    </div>
 
     <section class="hero hero-single">
-      <div class="hero-copy">
+      <div class="hero-copy portal-hero">
         <p class="eyebrow">LeadWise Administration</p>
         <h1>Access, feedback, and routing.</h1>
         <p class="lede">Use this page to grant access, review learner feedback, and assign open questions to the right people leadership partner.</p>

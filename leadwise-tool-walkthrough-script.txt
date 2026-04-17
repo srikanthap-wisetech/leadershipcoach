@@ -4,10 +4,16 @@ LeadWise Walkthrough Script
 Hello everyone, and welcome to LeadWise.
 
 [Pause]
-LeadWise is a leadership learning portal designed to support leaders through practical learning, reflection, and shared discussion. Instead of asking leaders to work through a static document or traditional course pack, LeadWise turns leadership development into a more engaging journal-style experience that can be used over time.
+LeadWise is a leadership learning portal built around WiseTech Leadership Foundations. It brings together structured learning, reflection, and community discussion in one place, so leaders can return to it as an ongoing working tool rather than a one-time course.
 
 [On screen: homepage]
-When I arrive on the homepage, I land directly in the journal. On the left-hand side, I can see all of the leadership topics in one place. This makes it easy to move between topics depending on what is most relevant to me as a leader right now.
+When I arrive on the homepage, I start on a branded landing page. Here I can immediately see the WiseTech identity, the leadership mantra, and two clear entry points: Journal and Community.
+
+[Pause]
+That makes the experience feel simple from the start. If I want structured learning, I go into the journal. If I want to learn with peers, I move into the community.
+
+[Click into Journal]
+When I open the journal, I can see all leadership topics on the left-hand side. This makes it easy to move between topics depending on what is most relevant to me as a leader right now.
 
 [Move cursor down topic list]
 For example, I can open topics such as Leadership Styles, Delegation, Building Trust, Empathy and Emotional Intelligence, Psychological Safety, Diversity, Inclusion, Belonging and Allyship, Cross-Cultural Leadership, and Giving and Receiving Feedback.
@@ -37,7 +43,7 @@ At the bottom of each topic, leaders can rate the content using a simple five-st
 LeadWise also includes a Community space.
 
 [Pause]
-This is a thread-based conversation area where leaders can ask questions, start discussions, respond to one another, and like useful contributions. Leaders can also browse conversations by topic, which makes it easier to find discussions connected to areas like trust, feedback, leadership styles, or any other journal topic. It creates a shared learning environment where people can benefit not only from the journal content, but also from the experiences of other leaders.
+This is a thread-based conversation area where leaders can ask questions, start discussions, respond to one another, and support useful contributions. Leaders can browse conversations by topic, collapse and expand threads, and follow practical discussions connected to the same themes they are exploring in the journal.
 
 [Pause on Suggest New Topics]
 Another important feature is the ability to suggest new topics. If leaders feel there is an important capability or challenge not yet covered, they can recommend it directly through the portal.
@@ -46,7 +52,7 @@ Another important feature is the ability to suggest new topics. If leaders feel 
 That suggestion then goes through a review and approval workflow, where administrators and the people leadership team can assess it, shape the content, and publish it once it is ready.
 
 [Return to homepage]
-Overall, LeadWise is designed to be more than a reading experience. It is a living leadership journal that brings together structured content, reflection, discussion, and continuous improvement in one place.
+Overall, LeadWise is designed to be more than a reading experience. It is a branded leadership platform that brings together structured content, reflection, shared discussion, and continuous improvement in one place.
 
 [Close with smile]
 Thank you for taking the time to walk through LeadWise.

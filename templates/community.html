@@ -10,6 +10,15 @@
   <main class="page">
     <div class="page-header">
       <div class="header-left">
+        <div class="portal-brandbar">
+          <span class="portal-brand-badge">
+            <img src="https://www.wisetechglobal.com/media/e5ebuyzp/wisetech-global-device-white.svg?height=62&mode=max&width=75" alt="WiseTech Global logo">
+          </span>
+          <div class="portal-brand-copy">
+            <p class="portal-brand-name">WiseTech Global</p>
+            <p class="portal-brand-subtitle">LeadWise</p>
+          </div>
+        </div>
         <nav class="topnav">
           <a class="topnav-link" href="/">Home</a>
           <a class="topnav-link" href="/journal?theme={{ theme }}">Journal</a>
@@ -115,7 +124,7 @@
     </div>
 
     <section class="hero hero-single">
-      <div class="hero-copy hero-copy-wide">
+      <div class="hero-copy hero-copy-wide portal-hero">
         <div class="hero-title-row">
           <div class="hero-title-copy">
             <p class="eyebrow">Leader Community</p>
@@ -245,12 +254,6 @@
                 >
                   Collapse
                 </button>
-                <form action="/web/community-like" method="post" class="community-like-form">
-                  <input type="hidden" name="thread_id" value="{{ thread.thread_id }}">
-                  <input type="hidden" name="theme" value="{{ theme }}">
-                  <input type="hidden" name="topic_id" value="{{ selected_topic_id }}">
-                  <button type="submit" class="ghost-button">Like {{ thread.liked_by|length }}</button>
-                </form>
               </div>
             </div>
             <div class="community-thread-panel" id="thread-panel-{{ thread.thread_id }}">
@@ -274,7 +277,7 @@
                         <input type="hidden" name="reply_id" value="{{ reply.reply_id }}">
                         <input type="hidden" name="theme" value="{{ theme }}">
                         <input type="hidden" name="topic_id" value="{{ selected_topic_id }}">
-                        <button type="submit" class="ghost-button">Like {{ reply.liked_by|length }}</button>
+                        <button type="submit" class="ghost-button" aria-label="Like this reply">&#128077; {{ reply.liked_by|length }}</button>
                       </form>
                     </div>
                     <p>{{ reply.content }}</p>
@@ -285,6 +288,15 @@
               {% endif %}
 
               <div class="community-thread-footer">
+                <div class="thread-support-row">
+                  <p class="muted">Found this question or conversation prompt useful?</p>
+                  <form action="/web/community-like" method="post" class="community-like-form">
+                    <input type="hidden" name="thread_id" value="{{ thread.thread_id }}">
+                    <input type="hidden" name="theme" value="{{ theme }}">
+                    <input type="hidden" name="topic_id" value="{{ selected_topic_id }}">
+                    <button type="submit" class="ghost-button" aria-label="Support this question">&#128077; {{ thread.liked_by|length }}</button>
+                  </form>
+                </div>
                 <form action="/web/community-reply" method="post" class="community-reply-form">
                   <input type="hidden" name="thread_id" value="{{ thread.thread_id }}">
                   <input type="hidden" name="theme" value="{{ theme }}">
