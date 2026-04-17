@@ -1,6 +1,6 @@
-# WiseCoach
+# LeadWise
 
-WiseCoach is now structured as a web-first leadership basics portal built from the Leadership Journal V1.
+LeadWise is now structured as a web-first leadership basics portal built from the Leadership Journal V1.
 
 Version 1 is designed to:
 
@@ -74,7 +74,7 @@ The people leadership team can:
 ## Current scaffold in this workspace
 
 - `app/`: FastAPI app, storage, and role-based portal logic.
-- `templates/` and `static/`: the WiseCoach web experience.
+- `templates/` and `static/`: the LeadWise web experience.
 - `data/`: persistent local data for users, access, feedback, and questions.
 - `data/leadership-journal-extract.txt`: extracted text from the source PDF used to structure the portal topics.
 - `teams/`: future Teams integration assets kept for later.

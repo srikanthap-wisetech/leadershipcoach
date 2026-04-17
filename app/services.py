@@ -285,7 +285,7 @@ class TeamsBotService:
             return TeamsMessageResponse(
                 response_type="daily_tip",
                 text=f"{tip.headline}\n\n{tip.message}\n\nReflection: {tip.reflection_question}",
-                suggested_actions=["Open WiseCoach", "Update a goal", "Raise an issue"],
+            suggested_actions=["Open LeadWise", "Update a goal", "Raise an issue"],
             )
 
         return TeamsMessageResponse(

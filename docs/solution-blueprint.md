@@ -2,7 +2,7 @@
 
 ## Product vision
 
-WiseCoach is a digital coaching companion that helps leaders improve their effectiveness through personalized guidance, structured reflection, and grounded answers based on company leadership content.
+LeadWise is a digital coaching companion that helps leaders improve their effectiveness through personalized guidance, structured reflection, and grounded answers based on company leadership content.
 
 ## Core use cases
 

@@ -12,9 +12,9 @@ from app.portal import portal
 from app.services import teams_bot
 
 app = FastAPI(
-    title="WiseJournal",
+    title="LeadWise",
     version="1.0.0",
-    description="WiseJournal leadership portal with topic-first navigation, saved notes, and review workflows for administrators and people leadership.",
+    description="LeadWise leadership portal with topic-first navigation, saved notes, and review workflows for administrators and people leadership.",
 )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -121,6 +121,12 @@ def _journal_url(**params: str) -> str:
     cleaned = {key: value for key, value in params.items() if value not in ("", None)}
     query = urlencode(cleaned)
     return f"/journal?{query}" if query else "/journal"
+
+
+def _community_url(**params: str) -> str:
+    cleaned = {key: value for key, value in params.items() if value not in ("", None)}
+    query = urlencode(cleaned)
+    return f"/community?{query}" if query else "/community"
 
 
 @app.get("/health")
@@ -261,11 +267,13 @@ def submit_feedback(
     user_id: str = Form("leader-alex"),
     topic_id: str = Form(...),
     theme: str = Form("sunrise"),
+    source: str = Form("journal"),
     rating: int = Form(...),
     comments: str = Form(""),
 ):
     portal.add_feedback(user_id=user_id, topic_id=topic_id, rating=rating, comments=comments)
-    return RedirectResponse(url=_journal_url(topic_id=topic_id, theme=theme), status_code=303)
+    redirect_url = _community_url(theme=theme, topic_id=topic_id) if source == "community" else _journal_url(topic_id=topic_id, theme=theme)
+    return RedirectResponse(url=redirect_url, status_code=303)
 
 
 @app.post("/web/questions")
@@ -273,17 +281,20 @@ def submit_question(
     user_id: str = Form("leader-alex"),
     topic_id: str = Form(...),
     theme: str = Form("sunrise"),
+    source: str = Form("journal"),
     question: str = Form(...),
 ):
     portal.submit_question(user_id=user_id, topic_id=topic_id, question=question)
-    return RedirectResponse(url=_journal_url(topic_id=topic_id, theme=theme), status_code=303)
+    redirect_url = _community_url(theme=theme, topic_id=topic_id) if source == "community" else _journal_url(topic_id=topic_id, theme=theme)
+    return RedirectResponse(url=redirect_url, status_code=303)
 
 
 @app.post("/web/topic-suggestions")
 def submit_topic_suggestion(
     user_id: str = Form("leader-alex"),
-    topic_id: str = Form(...),
+    topic_id: str = Form(""),
     theme: str = Form("sunrise"),
+    source: str = Form("journal"),
     topic_name: str = Form(...),
     details: str = Form(...),
     need_description: str = Form(...),
@@ -294,7 +305,8 @@ def submit_topic_suggestion(
         details=details,
         need_description=need_description,
     )
-    return RedirectResponse(url=_journal_url(topic_id=topic_id, theme=theme), status_code=303)
+    redirect_url = _community_url(theme=theme, topic_id=topic_id) if source == "community" else _journal_url(topic_id=topic_id, theme=theme)
+    return RedirectResponse(url=redirect_url, status_code=303)
 
 
 @app.post("/web/community-thread")

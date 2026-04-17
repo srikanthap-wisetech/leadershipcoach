@@ -5,7 +5,7 @@
 This project is now scaffolded as a web-first solution with:
 
 - a backend API for all leadership coaching logic
-- a browser-based WiseCoach experience for profile, goals, coaching, and Q&A
+- a browser-based LeadWise experience for profile, goals, coaching, and Q&A
 - a future Teams personal tab for the same web app
 - a future Teams bot for chat-based coaching and proactive tips
 - adaptive cards for daily tip delivery and check-ins
@@ -22,7 +22,7 @@ This project is now scaffolded as a web-first solution with:
 
 ### Web app
 
-- `templates/index.html` provides the main browser-based WiseCoach UI.
+- `templates/index.html` provides the main browser-based LeadWise UI.
 - `static/styles.css` provides the visual design for the MVP.
 
 ### Teams app

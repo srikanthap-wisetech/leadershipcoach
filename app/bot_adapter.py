@@ -17,7 +17,7 @@ try:
     BOT_FRAMEWORK_AVAILABLE = True
 
     async def on_error(turn_context: TurnContext, error: Exception) -> None:
-        await turn_context.send_activity("WiseCoach hit an unexpected error.")
+        await turn_context.send_activity("LeadWise hit an unexpected error.")
         raise error
 
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WiseJournal Community</title>
+  <title>LeadWise Community</title>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body data-theme="{{ theme }}">
@@ -11,6 +11,7 @@
     <div class="page-header">
       <div class="header-left">
         <nav class="topnav">
+          <a class="topnav-link" href="/">Home</a>
           <a class="topnav-link" href="/journal?theme={{ theme }}">Journal</a>
           <a class="topnav-link active" href="/community?theme={{ theme }}">Community</a>
           {% if current_user.role.value in ["administrator", "people-leadership"] %}
@@ -28,6 +29,88 @@
             {% endfor %}
           </div>
         </div>
+
+        <div class="page-action-row">
+          <details class="action-popover">
+            <summary>Give Feedback</summary>
+            <div class="popover-card">
+              <h3>Give Feedback</h3>
+              <p class="muted">Share what was useful, what needs improving, or where the journal should go deeper.</p>
+              <form action="/web/feedback" method="post">
+                <input type="hidden" name="theme" value="{{ theme }}">
+                <input type="hidden" name="source" value="community">
+                <label>Topic
+                  <select name="topic_id">
+                    {% for topic in available_topics %}
+                    <option value="{{ topic.topic_id }}" {% if selected_topic_id == topic.topic_id %}selected{% endif %}>{{ topic.title }}</option>
+                    {% endfor %}
+                  </select>
+                </label>
+                <label>Rating
+                  <select name="rating">
+                    <option value="5">5 - very useful</option>
+                    <option value="4">4 - useful</option>
+                    <option value="3">3 - decent</option>
+                    <option value="2">2 - limited</option>
+                    <option value="1">1 - not useful</option>
+                  </select>
+                </label>
+                <label>Comments
+                  <textarea name="comments" rows="5" placeholder="What landed well? What needs improvement?" required></textarea>
+                </label>
+                <button type="submit">Submit Feedback</button>
+              </form>
+            </div>
+          </details>
+
+          <details class="action-popover">
+            <summary>Ask a Question</summary>
+            <div class="popover-card">
+              <h3>Ask a Question</h3>
+              <p class="muted">Questions submitted here can be reviewed by the people leadership team and answered later.</p>
+              <form action="/web/questions" method="post">
+                <input type="hidden" name="theme" value="{{ theme }}">
+                <input type="hidden" name="source" value="community">
+                <label>Topic
+                  <select name="topic_id">
+                    {% for topic in available_topics %}
+                    <option value="{{ topic.topic_id }}" {% if selected_topic_id == topic.topic_id %}selected{% endif %}>{{ topic.title }}</option>
+                    {% endfor %}
+                  </select>
+                </label>
+                <label>Your Question
+                  <textarea name="question" rows="5" placeholder="What are you still unclear about in this topic?" required></textarea>
+                </label>
+                <button type="submit">Send to People Leadership</button>
+              </form>
+            </div>
+          </details>
+
+          <details class="action-popover">
+            <summary>Suggest New Topics</summary>
+            <div class="popover-card">
+              <h3>Suggest New Topics</h3>
+              <p class="muted">Recommend a new topic area, explain what it should cover, and describe why leaders need it in the journal. Your suggestion will go through review, and the team will curate the relevant content and make it available once approved.</p>
+              <form action="/web/topic-suggestions" method="post">
+                <input type="hidden" name="theme" value="{{ theme }}">
+                <input type="hidden" name="source" value="community">
+                {% if selected_topic_id %}
+                <input type="hidden" name="topic_id" value="{{ selected_topic_id }}">
+                {% endif %}
+                <label>Topic Name
+                  <input type="text" name="topic_name" placeholder="What should the topic be called?" required>
+                </label>
+                <label>Details and Scope
+                  <textarea name="details" rows="4" placeholder="What should this topic cover? Which subtopics or examples would make it valuable?" required></textarea>
+                </label>
+                <label>Why This Is Needed
+                  <textarea name="need_description" rows="4" placeholder="What gap would this fill for leaders? Why does it matter now?" required></textarea>
+                </label>
+                <button type="submit">Send Suggestion</button>
+              </form>
+            </div>
+          </details>
+        </div>
       </div>
     </div>
 
@@ -36,16 +119,25 @@
         <div class="hero-title-row">
           <div class="hero-title-copy">
             <p class="eyebrow">Leader Community</p>
-            <h1>We are in it together</h1>
+            <h1>LeadWise Community</h1>
           </div>
           <button type="button" class="modal-trigger hero-link-button" data-modal-target="about-community-modal">About community</button>
         </div>
         <div class="community-purpose-panel">
-          <p class="community-purpose-lead">This is the shared leadership space where leaders can ask practical questions, share what is working, and learn from one another in real time.</p>
-          <div class="community-purpose-points">
-            <span>Start a conversation on a leadership topic</span>
-            <span>Learn from peer replies and suggestions</span>
-            <span>Browse discussions by topic and join in</span>
+          <p class="section-kicker">What this space unlocks</p>
+          <div class="community-purpose-grid">
+            <article class="community-purpose-card">
+              <h3>Ask openly</h3>
+              <p>Start a thread when you need perspective, examples, or a sounding board on a leadership challenge.</p>
+            </article>
+            <article class="community-purpose-card">
+              <h3>Learn together</h3>
+              <p>See how other leaders are handling similar situations and build on practical replies and suggestions.</p>
+            </article>
+            <article class="community-purpose-card">
+              <h3>Follow topics</h3>
+              <p>Browse conversations by leadership topic so you can stay close to the areas you are actively working on.</p>
+            </article>
           </div>
         </div>
       </div>
@@ -59,7 +151,7 @@
             <button type="submit" class="modal-close" aria-label="Close">Close</button>
           </form>
         </div>
-        <p class="muted">The community page is the shared leadership conversation space inside WiseJournal. It gives leaders a place to ask practical questions, learn from one another, and connect journal topics to real work situations.</p>
+        <p class="muted">The community page is the shared leadership conversation space inside LeadWise. It gives leaders a place to ask practical questions, learn from one another, and connect journal topics to real work situations.</p>
 
         <div class="story-block">
           <p class="section-kicker">What This Space Is For</p>
@@ -132,8 +224,11 @@
           {% for thread in threads %}
           <article class="community-thread">
             <div class="community-thread-header">
-              <div>
-                <p class="eyebrow">Started by {{ user_lookup[thread.user_id].name }}</p>
+              <div class="thread-header-copy">
+                <div class="thread-meta-row">
+                  <p class="eyebrow">Started by {{ user_lookup[thread.user_id].name }}</p>
+                  <span class="thread-count-pill">{{ thread.replies|length }} replies</span>
+                </div>
                 <h3>{{ thread.title }}</h3>
                 {% if thread.topic_id and thread.topic_id in topic_lookup %}
                 <div class="thread-tags">
@@ -160,26 +255,34 @@
             </div>
             <div class="community-thread-panel" id="thread-panel-{{ thread.thread_id }}">
               <div class="community-thread-body">
+                <p class="thread-section-label">Conversation</p>
                 <p>{{ thread.content }}</p>
               </div>
 
-              <div class="reply-stack">
-                {% for reply in thread.replies %}
-                <article class="reply-card">
-                  <div class="reply-header">
-                    <p class="eyebrow">{{ user_lookup[reply.user_id].name }}</p>
-                    <form action="/web/community-like" method="post" class="community-like-form">
-                      <input type="hidden" name="thread_id" value="{{ thread.thread_id }}">
-                      <input type="hidden" name="reply_id" value="{{ reply.reply_id }}">
-                      <input type="hidden" name="theme" value="{{ theme }}">
-                      <input type="hidden" name="topic_id" value="{{ selected_topic_id }}">
-                      <button type="submit" class="ghost-button">Like {{ reply.liked_by|length }}</button>
-                    </form>
-                  </div>
-                  <p>{{ reply.content }}</p>
-                </article>
-                {% endfor %}
+              {% if thread.replies %}
+              <div class="reply-lane">
+                <div class="reply-lane-header">
+                  <p class="thread-section-label">Replies</p>
+                </div>
+                <div class="reply-stack">
+                  {% for reply in thread.replies %}
+                  <article class="reply-card">
+                    <div class="reply-header">
+                      <p class="eyebrow">{{ user_lookup[reply.user_id].name }}</p>
+                      <form action="/web/community-like" method="post" class="community-like-form">
+                        <input type="hidden" name="thread_id" value="{{ thread.thread_id }}">
+                        <input type="hidden" name="reply_id" value="{{ reply.reply_id }}">
+                        <input type="hidden" name="theme" value="{{ theme }}">
+                        <input type="hidden" name="topic_id" value="{{ selected_topic_id }}">
+                        <button type="submit" class="ghost-button">Like {{ reply.liked_by|length }}</button>
+                      </form>
+                    </div>
+                    <p>{{ reply.content }}</p>
+                  </article>
+                  {% endfor %}
+                </div>
               </div>
+              {% endif %}
 
               <div class="community-thread-footer">
                 <form action="/web/community-reply" method="post" class="community-reply-form">

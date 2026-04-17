@@ -43,7 +43,7 @@ class LeadershipCoachBot(ActivityHandler):
             if member.id != bot_id:
                 await turn_context.send_activity(
                     MessageFactory.text(
-                        "WiseCoach is ready. Send `tip` for a daily coaching tip or "
+                "LeadWise is ready. Send `tip` for a daily coaching tip or "
                         "`ask: <question>` for a company-grounded leadership answer."
                     )
                 )

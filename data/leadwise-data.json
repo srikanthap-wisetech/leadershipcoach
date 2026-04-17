@@ -1,0 +1,218 @@
+{
+  "profiles": {},
+  "goals": {},
+  "goal_checkins": {},
+  "issues": {},
+  "portal_users": {
+    "leader-alex": {
+      "user_id": "leader-alex",
+      "name": "Alex Leader",
+      "role": "leader",
+      "active": true
+    },
+    "admin-sam": {
+      "user_id": "admin-sam",
+      "name": "Sam Administrator",
+      "role": "administrator",
+      "active": true
+    },
+    "pl-jordan": {
+      "user_id": "pl-jordan",
+      "name": "Jordan People Leadership",
+      "role": "people-leadership",
+      "active": true
+    },
+    "leader-priya": {
+      "user_id": "leader-priya",
+      "name": "Priya Leader",
+      "role": "leader",
+      "active": true
+    },
+    "leader-marcus": {
+      "user_id": "leader-marcus",
+      "name": "Marcus Leader",
+      "role": "leader",
+      "active": true
+    }
+  },
+  "topic_access": {
+    "leader-alex": [
+      "building-trust",
+      "cross-cultural-leadership",
+      "delegation",
+      "empathy-and-emotional-intelligence",
+      "giving-and-receiving-feedback",
+      "leadership-styles",
+      "psychological-safety-diversity-allyship",
+      "transition-to-leadership",
+      "wisetech-leadership-foundations",
+      "wisetech-people-leader-practice"
+    ],
+    "leader-priya": [
+      "building-trust",
+      "cross-cultural-leadership",
+      "delegation",
+      "empathy-and-emotional-intelligence",
+      "giving-and-receiving-feedback",
+      "leadership-styles",
+      "psychological-safety-diversity-allyship",
+      "transition-to-leadership",
+      "wisetech-leadership-foundations",
+      "wisetech-people-leader-practice"
+    ],
+    "leader-marcus": [
+      "building-trust",
+      "cross-cultural-leadership",
+      "delegation",
+      "empathy-and-emotional-intelligence",
+      "giving-and-receiving-feedback",
+      "leadership-styles",
+      "psychological-safety-diversity-allyship",
+      "transition-to-leadership",
+      "wisetech-leadership-foundations",
+      "wisetech-people-leader-practice"
+    ]
+  },
+  "leader_feedback": {},
+  "topic_suggestions": {
+    "4b2cb0c2-8810-4cb8-a5ab-23a0ff5fbb74": {
+      "suggestion_id": "4b2cb0c2-8810-4cb8-a5ab-23a0ff5fbb74",
+      "user_id": "leader-alex",
+      "topic_name": "Managing Up During Change",
+      "details": "How to work effectively with senior leaders during periods of uncertainty.",
+      "need_description": "Leaders often need more practical guidance on upward communication and influence.",
+      "created_at": "2026-04-17T04:37:20.114950Z"
+    },
+    "dd04a4c9-87f2-4966-8f56-6411d628f9b1": {
+      "suggestion_id": "dd04a4c9-87f2-4966-8f56-6411d628f9b1",
+      "user_id": "leader-alex",
+      "topic_name": "Leading Through Reorgs",
+      "details": "How to communicate clearly during structure changes.",
+      "need_description": "Leaders need help handling uncertainty, morale, and shifting reporting lines.",
+      "status": "approved",
+      "assigned_to": "pl-jordan",
+      "approved_by": "pl-jordan",
+      "approval_notes": "Approved for the next content tranche because it supports current change conversations.",
+      "content_notes": "Add a summary, communication model, two workplace examples, one case study, reflection prompts, and recommended reading.",
+      "created_at": "2026-04-17T04:43:08.118238Z"
+    }
+  },
+  "topic_questions": {},
+  "leader_notes": {},
+  "community_threads": {
+    "373e95c2-c390-4a38-b10f-e67fe5d05c96": {
+      "thread_id": "373e95c2-c390-4a38-b10f-e67fe5d05c96",
+      "user_id": "leader-alex",
+      "topic_id": "wisetech-leadership-foundations",
+      "title": "How are others keeping one-on-ones useful during busy delivery periods?",
+      "content": "I am noticing my one-on-ones get pulled into status updates. I would love ideas on how other leaders protect development and coaching time when delivery pressure is high.",
+      "liked_by": [
+        "leader-alex"
+      ],
+      "created_at": "2026-04-17T04:48:02.919356Z",
+      "updated_at": "2026-04-17T04:48:02.977022Z",
+      "replies": [
+        {
+          "reply_id": "c5f4624a-c4a2-4cf5-bb86-fb35eb2f364f",
+          "thread_id": "373e95c2-c390-4a38-b10f-e67fe5d05c96",
+          "user_id": "leader-alex",
+          "content": "I block the first ten minutes for a check-in on energy, confidence, and blockers before we touch delivery. That small structure keeps the conversation more human and more useful.",
+          "liked_by": [],
+          "created_at": "2026-04-17T04:48:02.950713Z"
+        }
+      ]
+    },
+    "52950496-f88c-4a83-97fa-68e4f6883dd2": {
+      "thread_id": "52950496-f88c-4a83-97fa-68e4f6883dd2",
+      "user_id": "leader-priya",
+      "topic_id": "leadership-styles",
+      "title": "How are others adapting their leadership style when a strong performer starts slipping?",
+      "content": "I have a team member who is usually very self-directed, but over the last month they have needed much more structure and follow-up. I am trying to work out whether to shift into a more coaching style or get more directive for a while.",
+      "liked_by": [
+        "leader-alex"
+      ],
+      "created_at": "2026-04-17T04:59:56.886290Z",
+      "updated_at": "2026-04-17T04:59:56.886293Z",
+      "replies": [
+        {
+          "reply_id": "10b70712-6b73-4026-8c41-3d683f3cf92f",
+          "thread_id": "52950496-f88c-4a83-97fa-68e4f6883dd2",
+          "user_id": "leader-marcus",
+          "content": "I usually start with a coaching conversation first so I can understand what changed. If the context is personal or workload-related, that often tells me whether more direction or more support is actually needed.",
+          "liked_by": [
+            "leader-alex"
+          ],
+          "created_at": "2026-04-17T04:59:56.886296Z"
+        },
+        {
+          "reply_id": "aeb2a8ca-c5f8-486d-8eec-5a29cc5ad499",
+          "thread_id": "52950496-f88c-4a83-97fa-68e4f6883dd2",
+          "user_id": "leader-alex",
+          "content": "I have found it helps to say explicitly that I am adjusting my style for the moment rather than taking autonomy away permanently. That keeps trust intact while still giving the person more structure.",
+          "liked_by": [],
+          "created_at": "2026-04-17T04:59:56.886304Z"
+        }
+      ]
+    },
+    "ac499ada-a2c5-4311-8969-670bd018715d": {
+      "thread_id": "ac499ada-a2c5-4311-8969-670bd018715d",
+      "user_id": "leader-marcus",
+      "topic_id": "building-trust",
+      "title": "What is one trust-building habit that has worked well in your team?",
+      "content": "I am trying to build more consistency after a busy quarter. I would love practical ideas that are simple enough to repeat every week, not just once-off trust gestures.",
+      "liked_by": [
+        "leader-priya",
+        "leader-alex"
+      ],
+      "created_at": "2026-04-17T04:59:56.886310Z",
+      "updated_at": "2026-04-17T04:59:56.886310Z",
+      "replies": [
+        {
+          "reply_id": "7def9dbb-d534-40cc-9426-1c89cf5b13db",
+          "thread_id": "ac499ada-a2c5-4311-8969-670bd018715d",
+          "user_id": "leader-priya",
+          "content": "I now close every one-on-one by repeating back the one commitment I am taking away. It sounds small, but people notice when that action happens before the next check-in.",
+          "liked_by": [
+            "leader-alex"
+          ],
+          "created_at": "2026-04-17T04:59:56.886312Z"
+        }
+      ]
+    },
+    "24eef098-37b2-41df-a056-4af95ca9c5dd": {
+      "thread_id": "24eef098-37b2-41df-a056-4af95ca9c5dd",
+      "user_id": "leader-alex",
+      "topic_id": "giving-and-receiving-feedback",
+      "title": "How do you keep feedback clear without making the conversation feel heavy?",
+      "content": "I want my feedback conversations to be more useful and less loaded. I am interested in phrasing or structures that help keep the conversation grounded in behaviour and impact.",
+      "liked_by": [
+        "leader-priya",
+        "leader-alex"
+      ],
+      "created_at": "2026-04-17T04:59:56.886317Z",
+      "updated_at": "2026-04-17T08:17:37.834838Z",
+      "replies": [
+        {
+          "reply_id": "e272f32f-dd8c-40a7-b533-c7a00047e0f4",
+          "thread_id": "24eef098-37b2-41df-a056-4af95ca9c5dd",
+          "user_id": "leader-priya",
+          "content": "I have started asking permission before I give developmental feedback. It changes the tone immediately and makes the conversation feel more shared than corrective.",
+          "liked_by": [
+            "leader-alex"
+          ],
+          "created_at": "2026-04-17T04:59:56.886319Z"
+        },
+        {
+          "reply_id": "dd24b876-7e29-4753-8b0a-3381f9906959",
+          "thread_id": "24eef098-37b2-41df-a056-4af95ca9c5dd",
+          "user_id": "leader-marcus",
+          "content": "I keep coming back to one example, one impact, one next step. That structure stops me from overloading the conversation or drifting into personality language.",
+          "liked_by": [
+            "leader-alex"
+          ],
+          "created_at": "2026-04-17T04:59:56.886323Z"
+        }
+      ]
+    }
+  }
+}

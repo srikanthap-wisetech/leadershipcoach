@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://leadership-coach.local/schemas/leadership-coach-models.json",
-  "title": "WiseCoach Models",
+  "title": "LeadWise Models",
   "type": "object",
   "definitions": {
     "LeaderProfile": {

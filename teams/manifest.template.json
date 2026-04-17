@@ -10,18 +10,18 @@
     "termsOfUseUrl": "https://contoso.example/terms"
   },
   "name": {
-    "short": "WiseCoach",
-    "full": "WiseCoach for Microsoft Teams"
+      "short": "LeadWise",
+      "full": "LeadWise for Microsoft Teams"
   },
   "description": {
     "short": "A Teams-based coaching companion for leaders.",
-    "full": "WiseCoach helps people leaders receive daily tips, raise coaching issues, track goals, and ask company-specific leadership questions."
+      "full": "LeadWise helps people leaders receive daily tips, raise coaching issues, track goals, and ask company-specific leadership questions."
   },
   "accentColor": "#1F6F78",
   "staticTabs": [
     {
-      "entityId": "wisecoach-home",
-      "name": "WiseCoach",
+        "entityId": "leadwise-home",
+        "name": "LeadWise",
       "contentUrl": "${{TAB_URL}}",
       "websiteUrl": "${{TAB_URL}}",
       "scopes": [

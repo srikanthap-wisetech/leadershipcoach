@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WiseJournal</title>
+  <title>LeadWise Journal</title>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body data-theme="{{ theme }}">
@@ -11,6 +11,7 @@
     <div class="page-header">
       <div class="header-left">
         <nav class="topnav">
+          <a class="topnav-link" href="/">Home</a>
           <a class="topnav-link active" href="/journal?topic_id={{ selected_topic.topic_id }}&theme={{ theme }}">Journal</a>
           <a class="topnav-link" href="/community?theme={{ theme }}">Community</a>
           {% if current_user.role.value in ["administrator", "people-leadership"] %}
@@ -101,7 +102,7 @@
         <div class="hero-title-row">
           <div class="hero-title-copy">
             <p class="eyebrow">WiseTech Leadership Foundations</p>
-            <h1>WiseJournal</h1>
+            <h1>LeadWise Journal</h1>
           </div>
           <button type="button" class="modal-trigger hero-link-button" data-modal-target="about-journal-modal">About this journal</button>
         </div>
@@ -111,12 +112,12 @@
     <dialog class="modal-window" id="about-journal-modal">
       <div class="modal-card about-card">
         <div class="modal-header">
-          <h3>About WiseJournal</h3>
+          <h3>About LeadWise</h3>
           <form method="dialog">
             <button type="submit" class="modal-close" aria-label="Close">Close</button>
           </form>
         </div>
-        <p class="muted">WiseJournal is designed as a guided leadership learning space rather than a static content repository. It brings together structured leadership topics, reflection tools, shared community learning, and review workflows so leaders can learn in context, go deeper into the topics that matter most, and return to them over time.</p>
+        <p class="muted">LeadWise is designed as a guided leadership learning space rather than a static content repository. It brings together structured leadership topics, reflection tools, shared community learning, and review workflows so leaders can learn in context, go deeper into the topics that matter most, and return to them over time.</p>
 
         <div class="story-block">
           <p class="section-kicker">What This Tool Does</p>
@@ -175,7 +176,7 @@
         <h2>Topics</h2>
         <nav class="topic-nav">
           {% for topic in available_topics %}
-          <a class="topic-link {% if topic.topic_id == selected_topic.topic_id %}active{% endif %}" href="/?topic_id={{ topic.topic_id }}&theme={{ theme }}">
+          <a class="topic-link {% if topic.topic_id == selected_topic.topic_id %}active{% endif %}" href="/journal?topic_id={{ topic.topic_id }}&theme={{ theme }}">
             <span class="topic-link-title">{{ topic.title }}</span>
           </a>
           {% endfor %}

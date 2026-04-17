@@ -40,7 +40,7 @@
   "actions": [
     {
       "type": "Action.OpenUrl",
-      "title": "Open WiseCoach",
+        "title": "Open LeadWise",
       "url": "${app_url}"
     }
   ]

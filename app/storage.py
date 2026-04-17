@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 from pathlib import Path
 
 from app.models import (
@@ -19,7 +20,8 @@ from app.models import (
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
-DB_PATH = DATA_DIR / "wisecoach-data.json"
+DB_PATH = DATA_DIR / "leadwise-data.json"
+LEGACY_DB_PATH = DATA_DIR / "wisecoach-data.json"
 
 
 class JsonStore:
@@ -44,6 +46,8 @@ class JsonStore:
 
     def initialize(self) -> None:
         DATA_DIR.mkdir(parents=True, exist_ok=True)
+        if not DB_PATH.exists() and LEGACY_DB_PATH.exists():
+            shutil.copy2(LEGACY_DB_PATH, DB_PATH)
         if not DB_PATH.exists():
             self._write(self._empty_payload())
         else:
