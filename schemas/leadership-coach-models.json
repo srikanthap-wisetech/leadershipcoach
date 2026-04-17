@@ -1,0 +1,362 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leadership-coach.local/schemas/leadership-coach-models.json",
+  "title": "WiseCoach Models",
+  "type": "object",
+  "definitions": {
+    "LeaderProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "leaderId",
+        "role",
+        "title",
+        "teamSize",
+        "yearsOfLeadershipExperience",
+        "newToLeadership",
+        "strengths",
+        "improvementAreas",
+        "preferences"
+      ],
+      "properties": {
+        "leaderId": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "function": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "teamSize": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "indirectTeamSize": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "yearsOfLeadershipExperience": {
+          "type": "number",
+          "minimum": 0
+        },
+        "newToLeadership": {
+          "type": "boolean"
+        },
+        "strengths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "improvementAreas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "preferences": {
+          "$ref": "#/definitions/LeadershipPreference"
+        }
+      }
+    },
+    "LeadershipPreference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "coachingStyle",
+        "tipFrequency",
+        "tipLength",
+        "focusAreas"
+      ],
+      "properties": {
+        "coachingStyle": {
+          "type": "string",
+          "enum": [
+            "reflective",
+            "direct",
+            "structured",
+            "supportive",
+            "challenging"
+          ]
+        },
+        "tipFrequency": {
+          "type": "string",
+          "enum": [
+            "daily",
+            "weekdays",
+            "weekly"
+          ]
+        },
+        "tipLength": {
+          "type": "string",
+          "enum": [
+            "short",
+            "medium"
+          ]
+        },
+        "focusAreas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "deliveryChannel": {
+          "type": "string",
+          "enum": [
+            "web",
+            "email",
+            "teams"
+          ]
+        }
+      }
+    },
+    "CoachingIssue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "issueId",
+        "leaderId",
+        "title",
+        "description",
+        "theme",
+        "createdAt"
+      ],
+      "properties": {
+        "issueId": {
+          "type": "string"
+        },
+        "leaderId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string",
+          "enum": [
+            "feedback",
+            "conflict",
+            "delegation",
+            "performance",
+            "motivation",
+            "communication",
+            "prioritization",
+            "team-development",
+            "other"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "urgency": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        }
+      }
+    },
+    "DailyTip": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tipId",
+        "leaderId",
+        "headline",
+        "message",
+        "reason",
+        "createdAt"
+      ],
+      "properties": {
+        "tipId": {
+          "type": "string"
+        },
+        "leaderId": {
+          "type": "string"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "linkedGoalId": {
+          "type": "string"
+        },
+        "linkedIssueId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "DevelopmentGoal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "goalId",
+        "leaderId",
+        "title",
+        "category",
+        "status",
+        "successCriteria"
+      ],
+      "properties": {
+        "goalId": {
+          "type": "string"
+        },
+        "leaderId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "communication",
+            "delegation",
+            "feedback",
+            "coaching",
+            "performance",
+            "team-culture",
+            "strategic-thinking",
+            "other"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "not-started",
+            "in-progress",
+            "at-risk",
+            "completed"
+          ]
+        },
+        "targetDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "successCriteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "milestones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "GoalCheckIn": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkInId",
+        "goalId",
+        "progressNote",
+        "confidence",
+        "createdAt"
+      ],
+      "properties": {
+        "checkInId": {
+          "type": "string"
+        },
+        "goalId": {
+          "type": "string"
+        },
+        "progressNote": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "GroundedAnswer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "question",
+        "answer",
+        "citations",
+        "grounded"
+      ],
+      "properties": {
+        "question": {
+          "type": "string"
+        },
+        "answer": {
+          "type": "string"
+        },
+        "grounded": {
+          "type": "boolean"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "citations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "documentId",
+              "title",
+              "chunkId"
+            ],
+            "properties": {
+              "documentId": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "chunkId": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

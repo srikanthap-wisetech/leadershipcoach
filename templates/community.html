@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WiseJournal Community</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body data-theme="{{ theme }}">
+  <main class="page">
+    <div class="page-header">
+      <div class="header-left">
+        <nav class="topnav">
+          <a class="topnav-link" href="/journal?theme={{ theme }}">Journal</a>
+          <a class="topnav-link active" href="/community?theme={{ theme }}">Community</a>
+          {% if current_user.role.value in ["administrator", "people-leadership"] %}
+          <a class="topnav-link" href="/admin?theme={{ theme }}">Administrator</a>
+          <a class="topnav-link" href="/people-leadership?theme={{ theme }}">People Leadership</a>
+          {% endif %}
+        </nav>
+      </div>
+      <div class="page-actions">
+        <div class="theme-switcher theme-switcher-compact">
+          <span class="theme-label">Theme</span>
+          <div class="theme-options">
+            {% for theme_value, theme_label in theme_options %}
+            <a class="theme-chip {% if theme == theme_value %}active{% endif %}" href="/community?theme={{ theme_value }}{% if selected_topic_id %}&topic_id={{ selected_topic_id }}{% endif %}">{{ theme_label }}</a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero hero-single">
+      <div class="hero-copy hero-copy-wide">
+        <div class="hero-title-row">
+          <div class="hero-title-copy">
+            <p class="eyebrow">Leader Community</p>
+            <h1>We are in it together</h1>
+          </div>
+          <button type="button" class="modal-trigger hero-link-button" data-modal-target="about-community-modal">About community</button>
+        </div>
+        <div class="community-purpose-panel">
+          <p class="community-purpose-lead">This is the shared leadership space where leaders can ask practical questions, share what is working, and learn from one another in real time.</p>
+          <div class="community-purpose-points">
+            <span>Start a conversation on a leadership topic</span>
+            <span>Learn from peer replies and suggestions</span>
+            <span>Browse discussions by topic and join in</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <dialog class="modal-window" id="about-community-modal">
+      <div class="modal-card about-card">
+        <div class="modal-header">
+          <h3>About the Community</h3>
+          <form method="dialog">
+            <button type="submit" class="modal-close" aria-label="Close">Close</button>
+          </form>
+        </div>
+        <p class="muted">The community page is the shared leadership conversation space inside WiseJournal. It gives leaders a place to ask practical questions, learn from one another, and connect journal topics to real work situations.</p>
+
+        <div class="story-block">
+          <p class="section-kicker">What This Space Is For</p>
+          <ul class="reading-list">
+            <li>Start a thread when you want ideas, perspective, or examples from other leaders.</li>
+            <li>Reply to existing conversations with suggestions, practical experience, or reflections that may help someone else.</li>
+            <li>Browse by topic to find conversations connected to the leadership areas you are working on right now.</li>
+            <li>Use likes to signal which responses were most useful so helpful ideas stand out more clearly.</li>
+          </ul>
+        </div>
+      </div>
+    </dialog>
+
+    <section class="grid community-grid">
+      <section class="card wide">
+        <h2>Start a Conversation</h2>
+        <form action="/web/community-thread" method="post" class="community-composer">
+          <input type="hidden" name="theme" value="{{ theme }}">
+          <div class="community-composer-row">
+            <label>
+              Topic
+              <select name="topic_id">
+                <option value="">General leadership discussion</option>
+                {% for topic in available_topics %}
+                <option value="{{ topic.topic_id }}">{{ topic.title }}</option>
+                {% endfor %}
+              </select>
+            </label>
+            <label class="composer-title">
+              Thread title
+              <input type="text" name="title" placeholder="What conversation do you want to open?" required>
+            </label>
+            <div class="composer-action">
+              <button type="submit">Post Thread</button>
+            </div>
+          </div>
+          <label>
+            Your message
+            <textarea name="content" rows="5" placeholder="Share the context, what you are noticing, and where you would value ideas from other leaders." required></textarea>
+          </label>
+        </form>
+      </section>
+
+      <section class="card wide">
+        <div class="community-header">
+          <div>
+            <h2>Leader Conversations</h2>
+            <p class="muted">All leaders with portal access can read these threads, respond, and react to what helps.</p>
+            <div class="community-filter-panel">
+              <p class="section-kicker">Browse by topic</p>
+              <div class="community-topic-filters">
+                <a class="topic-filter-chip {% if not selected_topic_id %}active{% endif %}" href="/community?theme={{ theme }}">All topics</a>
+                {% for topic in available_topics %}
+                <a class="topic-filter-chip {% if selected_topic_id == topic.topic_id %}active{% endif %}" href="/community?theme={{ theme }}&topic_id={{ topic.topic_id }}">{{ topic.title }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="community-members">
+            <p class="section-kicker">Leaders in community</p>
+            <div class="chips">
+              {% for user in leader_members %}
+              <span>{{ user.name }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="stack">
+          {% for thread in threads %}
+          <article class="community-thread">
+            <div class="community-thread-header">
+              <div>
+                <p class="eyebrow">Started by {{ user_lookup[thread.user_id].name }}</p>
+                <h3>{{ thread.title }}</h3>
+                {% if thread.topic_id and thread.topic_id in topic_lookup %}
+                <div class="thread-tags">
+                  <a class="thread-tag" href="/community?theme={{ theme }}&topic_id={{ thread.topic_id }}">{{ topic_lookup[thread.topic_id].title }}</a>
+                </div>
+                {% endif %}
+              </div>
+              <div class="thread-header-actions">
+                <button
+                  type="button"
+                  class="ghost-button thread-toggle"
+                  data-thread-target="thread-panel-{{ thread.thread_id }}"
+                  aria-expanded="true"
+                >
+                  Collapse
+                </button>
+                <form action="/web/community-like" method="post" class="community-like-form">
+                  <input type="hidden" name="thread_id" value="{{ thread.thread_id }}">
+                  <input type="hidden" name="theme" value="{{ theme }}">
+                  <input type="hidden" name="topic_id" value="{{ selected_topic_id }}">
+                  <button type="submit" class="ghost-button">Like {{ thread.liked_by|length }}</button>
+                </form>
+              </div>
+            </div>
+            <div class="community-thread-panel" id="thread-panel-{{ thread.thread_id }}">
+              <div class="community-thread-body">
+                <p>{{ thread.content }}</p>
+              </div>
+
+              <div class="reply-stack">
+                {% for reply in thread.replies %}
+                <article class="reply-card">
+                  <div class="reply-header">
+                    <p class="eyebrow">{{ user_lookup[reply.user_id].name }}</p>
+                    <form action="/web/community-like" method="post" class="community-like-form">
+                      <input type="hidden" name="thread_id" value="{{ thread.thread_id }}">
+                      <input type="hidden" name="reply_id" value="{{ reply.reply_id }}">
+                      <input type="hidden" name="theme" value="{{ theme }}">
+                      <input type="hidden" name="topic_id" value="{{ selected_topic_id }}">
+                      <button type="submit" class="ghost-button">Like {{ reply.liked_by|length }}</button>
+                    </form>
+                  </div>
+                  <p>{{ reply.content }}</p>
+                </article>
+                {% endfor %}
+              </div>
+
+              <div class="community-thread-footer">
+                <form action="/web/community-reply" method="post" class="community-reply-form">
+                  <input type="hidden" name="thread_id" value="{{ thread.thread_id }}">
+                  <input type="hidden" name="theme" value="{{ theme }}">
+                  <input type="hidden" name="topic_id" value="{{ selected_topic_id }}">
+                  <label>
+                    Add a reply
+                    <textarea name="content" rows="4" placeholder="Add a suggestion, share a similar experience, or answer the question raised in this thread." required></textarea>
+                  </label>
+                  <button type="submit">Post Reply</button>
+                </form>
+              </div>
+            </div>
+          </article>
+          {% else %}
+          <article class="feed-item">
+            <h3>No conversations yet for this topic</h3>
+            <p class="muted">There are no community threads in this topic yet. Start the first conversation to help leaders share questions, examples, and ideas in this area.</p>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+    </section>
+  </main>
+  <script>
+    document.querySelectorAll(".modal-trigger").forEach((button) => {
+      button.addEventListener("click", () => {
+        const dialog = document.getElementById(button.dataset.modalTarget);
+        if (dialog) {
+          dialog.showModal();
+        }
+      });
+    });
+
+    document.querySelectorAll(".modal-window").forEach((dialog) => {
+      dialog.addEventListener("click", (event) => {
+        const bounds = dialog.getBoundingClientRect();
+        const inside =
+          bounds.left <= event.clientX &&
+          event.clientX <= bounds.right &&
+          bounds.top <= event.clientY &&
+          event.clientY <= bounds.bottom;
+        if (!inside) {
+          dialog.close();
+        }
+      });
+    });
+
+    document.querySelectorAll(".thread-toggle").forEach((button) => {
+      button.addEventListener("click", () => {
+        const panel = document.getElementById(button.dataset.threadTarget);
+        if (!panel) {
+          return;
+        }
+        const isExpanded = button.getAttribute("aria-expanded") === "true";
+        panel.hidden = isExpanded;
+        button.setAttribute("aria-expanded", String(!isExpanded));
+        button.textContent = isExpanded ? "Expand" : "Collapse";
+      });
+    });
+  </script>
+</body>
+</html>

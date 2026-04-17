@@ -1,0 +1,52 @@
+WiseJournal Walkthrough Script
+
+[Warm, confident tone]
+Hello everyone, and welcome to WiseJournal.
+
+[Pause]
+WiseJournal is a leadership learning portal designed to support leaders through practical learning, reflection, and shared discussion. Instead of asking leaders to work through a static document or traditional course pack, WiseJournal turns leadership development into a more engaging journal-style experience that can be used over time.
+
+[On screen: homepage]
+When I arrive on the homepage, I land directly in the journal. On the left-hand side, I can see all of the leadership topics in one place. This makes it easy to move between topics depending on what is most relevant to me as a leader right now.
+
+[Move cursor down topic list]
+For example, I can open topics such as Leadership Styles, Delegation, Building Trust, Empathy and Emotional Intelligence, Psychological Safety, Diversity, Inclusion, Belonging and Allyship, Cross-Cultural Leadership, and Giving and Receiving Feedback.
+
+[Click into one topic]
+When I open a topic, the content appears in the main reading area. Each topic is designed to feel practical and usable. At the top, I see a clear overview of the topic, and below that, I can move through structured subtopics that explain the idea in a simple, applied way.
+
+[Scroll slowly]
+Throughout the topic, I also see real workplace examples, so the content feels grounded in day-to-day leadership rather than abstract theory. In the broader topics, the journal goes deeper by breaking the material into more focused subtopics, which makes large ideas easier to work through.
+
+[Pause on case study button]
+Each topic also includes a case study. In some of the larger topics, the case study brings together more than one realistic scenario so leaders can reflect on how the same capability shows up in different contexts.
+
+[Open quiz or exercises]
+Then, to make learning more active, each topic includes a quiz and practical exercises. These are designed to help leaders move beyond reading and start applying the ideas in their own context.
+
+[Pause on notes area]
+There is also space for leaders to capture topic notes, case study reflections, and exercise reflections as they go. That turns the journal into a personal working tool, not just a content library.
+
+[Scroll to courses and books]
+Further down, each topic includes suggested courses and recommended reading. These curated resources help leaders go deeper into the areas that matter most to them and continue learning beyond the journal page itself.
+
+[Pause on rating section]
+At the bottom of each topic, leaders can rate the content using a simple five-star rating. If someone gives a lower rating, the tool prompts them to share more detail, which helps improve the journal over time. We also show the average topic rating, so leaders can see how others are finding the content.
+
+[Go to community page]
+WiseJournal also includes a Community space.
+
+[Pause]
+This is a thread-based conversation area where leaders can ask questions, start discussions, respond to one another, and like useful contributions. Leaders can also browse conversations by topic, which makes it easier to find discussions connected to areas like trust, feedback, leadership styles, or any other journal topic. It creates a shared learning environment where people can benefit not only from the journal content, but also from the experiences of other leaders.
+
+[Pause on Suggest New Topics]
+Another important feature is the ability to suggest new topics. If leaders feel there is an important capability or challenge not yet covered, they can recommend it directly through the portal.
+
+[Confident tone]
+That suggestion then goes through a review and approval workflow, where administrators and the people leadership team can assess it, shape the content, and publish it once it is ready.
+
+[Return to homepage]
+Overall, WiseJournal is designed to be more than a reading experience. It is a living leadership journal that brings together structured content, reflection, discussion, and continuous improvement in one place.
+
+[Close with smile]
+Thank you for taking the time to walk through WiseJournal.

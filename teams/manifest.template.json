@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.19/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.19",
+  "version": "0.1.0",
+  "id": "${{TEAMS_APP_ID}}",
+  "developer": {
+    "name": "WiseTech Leadership Enablement",
+    "websiteUrl": "https://contoso.example/leadership-coach",
+    "privacyUrl": "https://contoso.example/privacy",
+    "termsOfUseUrl": "https://contoso.example/terms"
+  },
+  "name": {
+    "short": "WiseCoach",
+    "full": "WiseCoach for Microsoft Teams"
+  },
+  "description": {
+    "short": "A Teams-based coaching companion for leaders.",
+    "full": "WiseCoach helps people leaders receive daily tips, raise coaching issues, track goals, and ask company-specific leadership questions."
+  },
+  "accentColor": "#1F6F78",
+  "staticTabs": [
+    {
+      "entityId": "wisecoach-home",
+      "name": "WiseCoach",
+      "contentUrl": "${{TAB_URL}}",
+      "websiteUrl": "${{TAB_URL}}",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "bots": [
+    {
+      "botId": "${{BOT_APP_ID}}",
+      "scopes": [
+        "personal"
+      ],
+      "isNotificationOnly": false,
+      "supportsFiles": false,
+      "commandLists": [
+        {
+          "scopes": [
+            "personal"
+          ],
+          "commands": [
+            {
+              "title": "tip",
+              "description": "Get a personalized daily leadership tip"
+            },
+            {
+              "title": "ask",
+              "description": "Ask a company-grounded leadership question"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "${{APP_DOMAIN}}"
+  ]
+}

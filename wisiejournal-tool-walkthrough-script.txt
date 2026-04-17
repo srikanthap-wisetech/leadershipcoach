@@ -1,0 +1,23 @@
+WiseJournal Walkthrough Script
+
+Hello everyone, and welcome to WiseJournal.
+
+WiseJournal is a leadership learning portal designed to support leaders through practical, reflective, and community-based development. Rather than presenting leadership content as a static document or course pack, WiseJournal turns it into an interactive journal experience that leaders can return to as they grow.
+
+When I land on the homepage, the first thing I see is the journal itself. On the left-hand side, all leadership topics are visible in a clean navigation panel. This makes it easy to move between topics depending on what is most relevant at the time. For example, I can open topics like Leadership Styles, Delegation, Building Trust, Empathy and Emotional Intelligence, Psychological Safety, or Giving and Receiving Feedback.
+
+When I click into a topic, the content opens in the main section. Each topic begins with a clear overview, followed by structured subtopics, practical explanations, real workplace examples, and a case study. The idea is to make the content feel usable in day-to-day leadership, not just theoretical.
+
+For each topic, leaders can also engage more actively with the material. There is a quiz section for quick knowledge checks, exercises for application, and space to save personal notes and reflections. These notes can help leaders connect the content directly to situations in their own teams.
+
+Below each topic, there are also suggested courses and recommended reading. These give leaders a way to continue learning beyond the journal itself, using curated resources from platforms like LinkedIn Learning and Coursera, as well as selected books.
+
+At the bottom of each topic, leaders can rate the topic using a simple five-star rating. If a low rating is given, the tool automatically asks for more detailed feedback so the content can continue improving. The tool also shows the average rating from all users, so over time it becomes easier to see which topics are landing most effectively.
+
+WiseJournal also includes a Community space. This is a thread-based discussion area where leaders can post questions, start conversations, respond to one another, and like helpful contributions. It gives leaders the opportunity to learn not only from the journal content, but also from the lived experiences of their peers.
+
+Another important feature is topic suggestions. If a leader feels an important topic is missing, they can suggest a new one directly from the portal. That suggestion then goes through a review workflow, where administrators and the people leadership team can review it, assign it, approve it, and eventually curate content for future release.
+
+Overall, WiseJournal is designed to be more than a content library. It is a living leadership journal that combines structured learning, reflection, shared discussion, and continuous improvement.
+
+Thank you for taking the time to walk through WiseJournal.

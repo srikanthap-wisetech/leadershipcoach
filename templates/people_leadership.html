@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WiseJournal People Leadership</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body data-theme="sunrise">
+  <main class="page">
+    <nav class="topnav">
+      <a class="topnav-link" href="/journal">Journal</a>
+      <a class="topnav-link" href="/community">Community</a>
+      {% if current_user.role.value in ["administrator", "people-leadership"] %}
+      <a class="topnav-link" href="/admin">Administrator</a>
+      <a class="topnav-link active" href="/people-leadership">People Leadership</a>
+      {% endif %}
+    </nav>
+
+    <section class="hero hero-single">
+      <div class="hero-copy">
+        <p class="eyebrow">People Leadership</p>
+        <h1>Respond to submitted questions.</h1>
+        <p class="lede">This queue shows the questions leaders have raised from the journal so the people leadership team can respond with guidance and follow-up.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Question Queue</h2>
+      <div class="stack">
+        {% for question in questions %}
+        <article class="feed-item">
+          <p class="eyebrow">{{ question.status.value|replace("-", " ") }}</p>
+          <h3>{{ question.topic_id|replace("-", " ")|title }}</h3>
+          <p>{{ question.question }}</p>
+          {% if question.assigned_to %}
+          <p class="muted"><strong>Assigned to:</strong> {{ question.assigned_to }}</p>
+          {% endif %}
+          <form action="/web/answer" method="post">
+            <input type="hidden" name="question_id" value="{{ question.question_id }}">
+            <label>
+              Your response
+              <textarea name="answer" rows="5" placeholder="Provide guidance, clarity, or a suggested next step.">{{ question.answer or '' }}</textarea>
+            </label>
+            <button type="submit">Save Answer</button>
+          </form>
+        </article>
+        {% else %}
+        <p class="muted">No questions are waiting for a response.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Suggested Topic Approval Queue</h2>
+      <div class="stack">
+        {% for suggestion in topic_suggestions %}
+        <article class="feed-item">
+          <p class="eyebrow">{{ suggestion.status.value|replace("-", " ")|title }}</p>
+          <h3>{{ suggestion.topic_name }}</h3>
+          <p><strong>Details:</strong> {{ suggestion.details }}</p>
+          <p><strong>Need:</strong> {{ suggestion.need_description }}</p>
+          <form action="/web/approve-topic-suggestion" method="post">
+            <input type="hidden" name="suggestion_id" value="{{ suggestion.suggestion_id }}">
+            <label>
+              Approval notes
+              <textarea name="approval_notes" rows="4" placeholder="Explain whether this topic should be added and what outcome it should support.">{{ suggestion.approval_notes or '' }}</textarea>
+            </label>
+            <label>
+              Recommended content to add
+              <textarea name="content_notes" rows="6" placeholder="Add the draft structure for the topic: overview, key ideas, examples, case study direction, exercises, and reading suggestions.">{{ suggestion.content_notes or '' }}</textarea>
+            </label>
+            <button type="submit">Approve Topic</button>
+          </form>
+        </article>
+        {% else %}
+        <p class="muted">No suggested topics are currently waiting for your review.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+</body>
+</html>

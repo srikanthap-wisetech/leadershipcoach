@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WiseJournal</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body data-theme="{{ theme }}">
+  <main class="page">
+    <div class="page-header">
+      <div class="header-left">
+        <nav class="topnav">
+          <a class="topnav-link active" href="/journal?topic_id={{ selected_topic.topic_id }}&theme={{ theme }}">Journal</a>
+          <a class="topnav-link" href="/community?theme={{ theme }}">Community</a>
+          {% if current_user.role.value in ["administrator", "people-leadership"] %}
+          <a class="topnav-link" href="/admin?theme={{ theme }}">Administrator</a>
+          <a class="topnav-link" href="/people-leadership?theme={{ theme }}">People Leadership</a>
+          {% endif %}
+        </nav>
+      </div>
+      <div class="page-actions">
+        <div class="theme-switcher theme-switcher-compact">
+          <span class="theme-label">Theme</span>
+          <div class="theme-options">
+            {% for theme_value, theme_label in theme_options %}
+            <a class="theme-chip {% if theme == theme_value %}active{% endif %}" href="/journal?topic_id={{ selected_topic.topic_id }}&theme={{ theme_value }}">{{ theme_label }}</a>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="page-action-row">
+        <details class="action-popover">
+          <summary>Give Feedback</summary>
+          <div class="popover-card">
+            <h3>Give Feedback</h3>
+            <p class="muted">Share what was useful, what needs improving, or where the journal should go deeper.</p>
+            <form action="/web/feedback" method="post">
+              <input type="hidden" name="topic_id" value="{{ selected_topic.topic_id }}">
+              <input type="hidden" name="theme" value="{{ theme }}">
+              <label>Rating
+                <select name="rating">
+                  <option value="5">5 - very useful</option>
+                  <option value="4">4 - useful</option>
+                  <option value="3">3 - decent</option>
+                  <option value="2">2 - limited</option>
+                  <option value="1">1 - not useful</option>
+                </select>
+              </label>
+              <label>Comments
+                <textarea name="comments" rows="5" placeholder="What landed well? What needs improvement?" required></textarea>
+              </label>
+              <button type="submit">Submit Feedback</button>
+            </form>
+          </div>
+        </details>
+
+        <details class="action-popover">
+          <summary>Ask a Question</summary>
+          <div class="popover-card">
+            <h3>Ask a Question</h3>
+            <p class="muted">Questions submitted here can be reviewed by the people leadership team and answered later.</p>
+            <form action="/web/questions" method="post">
+              <input type="hidden" name="topic_id" value="{{ selected_topic.topic_id }}">
+              <input type="hidden" name="theme" value="{{ theme }}">
+              <label>Your Question
+                <textarea name="question" rows="5" placeholder="What are you still unclear about in this topic?" required></textarea>
+              </label>
+              <button type="submit">Send to People Leadership</button>
+            </form>
+          </div>
+        </details>
+
+        <details class="action-popover">
+          <summary>Suggest New Topics</summary>
+          <div class="popover-card">
+            <h3>Suggest New Topics</h3>
+            <p class="muted">Recommend a new topic area, explain what it should cover, and describe why leaders need it in the journal. Your suggestion will go through review, and the team will curate the relevant content and make it available once approved.</p>
+            <form action="/web/topic-suggestions" method="post">
+              <input type="hidden" name="topic_id" value="{{ selected_topic.topic_id }}">
+              <input type="hidden" name="theme" value="{{ theme }}">
+              <label>Topic Name
+                <input type="text" name="topic_name" placeholder="What should the topic be called?" required>
+              </label>
+              <label>Details and Scope
+                <textarea name="details" rows="4" placeholder="What should this topic cover? Which subtopics or examples would make it valuable?" required></textarea>
+              </label>
+              <label>Why This Is Needed
+                <textarea name="need_description" rows="4" placeholder="What gap would this fill for leaders? Why does it matter now?" required></textarea>
+              </label>
+              <button type="submit">Send Suggestion</button>
+            </form>
+          </div>
+        </details>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="hero-copy hero-copy-wide">
+        <div class="hero-title-row">
+          <div class="hero-title-copy">
+            <p class="eyebrow">WiseTech Leadership Foundations</p>
+            <h1>WiseJournal</h1>
+          </div>
+          <button type="button" class="modal-trigger hero-link-button" data-modal-target="about-journal-modal">About this journal</button>
+        </div>
+      </div>
+    </section>
+
+    <dialog class="modal-window" id="about-journal-modal">
+      <div class="modal-card about-card">
+        <div class="modal-header">
+          <h3>About WiseJournal</h3>
+          <form method="dialog">
+            <button type="submit" class="modal-close" aria-label="Close">Close</button>
+          </form>
+        </div>
+        <p class="muted">WiseJournal is designed as a guided leadership learning space rather than a static content repository. It brings together structured leadership topics, reflection tools, shared community learning, and review workflows so leaders can learn in context, go deeper into the topics that matter most, and return to them over time.</p>
+
+        <div class="story-block">
+          <p class="section-kicker">What This Tool Does</p>
+          <ul class="reading-list">
+            <li>Organizes leadership content into clear topics with summaries, deeper subtopics, real workplace examples, case studies, quizzes, exercises, and recommended learning resources.</li>
+            <li>Helps leaders turn reading into action by saving topic notes, exercise reflections, and case study reflections against each topic.</li>
+            <li>Creates a shared leadership learning environment through the community page, where leaders can ask questions, post ideas, reply to one another, like useful responses, and browse conversations by topic.</li>
+            <li>Allows leaders to suggest new topics when they see a gap, so the journal can continue evolving with real leadership needs inside the business.</li>
+          </ul>
+        </div>
+
+        <div class="story-block">
+          <p class="section-kicker">How To Use The Journal</p>
+          <ul class="reading-list">
+            <li>Start with the topic list on the left and choose the area most relevant to what you are leading right now.</li>
+            <li>Read the topic overview first to understand the shape of the topic and the key ideas included inside it.</li>
+            <li>Move through the subtopics in order or jump directly to the section that matches the leadership challenge you are thinking about.</li>
+            <li>Use the case study, quiz, and exercises as learning moments, not as tasks to finish quickly. The value comes from reflection and application.</li>
+            <li>Capture your own notes as you go so the journal becomes a working leadership reference for your real context.</li>
+          </ul>
+        </div>
+
+        <div class="story-block">
+          <p class="section-kicker">What Happens Beyond Reading</p>
+          <ul class="reading-list">
+            <li><strong>Community:</strong> Leaders can open threaded conversations, ask practical questions, learn from how others are handling similar situations, and filter those conversations by topic.</li>
+            <li><strong>Feedback and questions:</strong> Leaders can give feedback on the journal and ask questions that can be reviewed by the people leadership team.</li>
+            <li><strong>Suggest new topics:</strong> Suggestions go through a review flow, then administrators and people leadership can assign, approve, and curate new content for future release.</li>
+            <li><strong>Courses and reading:</strong> Each topic can point leaders toward extra learning through suggested courses and recommended books.</li>
+          </ul>
+        </div>
+
+        <div class="story-block">
+          <p class="section-kicker">How Access Works</p>
+          <ul class="reading-list">
+            <li>Leaders primarily use the journal topics and the community space.</li>
+            <li>Administrators manage access, review suggestions, and route items for approval.</li>
+            <li>The people leadership team reviews questions and suggested topics, gives guidance, and helps shape future content.</li>
+            <li>In a fuller production version, access would come from single sign-on and role-based permissions instead of visible user switching.</li>
+          </ul>
+        </div>
+
+        <div class="story-block">
+          <p class="section-kicker">How To Get The Most Value</p>
+          <ul class="reading-list">
+            <li>Use one topic at a time and connect it to a real leadership situation you are facing now.</li>
+            <li>Write notes in your own words instead of copying the content. That is where the learning starts becoming usable.</li>
+            <li>Bring a question into the community if you want practical advice from peers.</li>
+            <li>Suggest a new topic when you notice a repeated leadership need that is not yet covered in the journal.</li>
+          </ul>
+        </div>
+      </div>
+    </dialog>
+    <section class="portal-layout">
+      <aside class="card sidebar">
+        <h2>Topics</h2>
+        <nav class="topic-nav">
+          {% for topic in available_topics %}
+          <a class="topic-link {% if topic.topic_id == selected_topic.topic_id %}active{% endif %}" href="/?topic_id={{ topic.topic_id }}&theme={{ theme }}">
+            <span class="topic-link-title">{{ topic.title }}</span>
+          </a>
+          {% endfor %}
+        </nav>
+
+      </aside>
+
+      <div class="content-stack">
+      <section class="card">
+        <div class="topic-hero">
+          <div class="topic-hero-copy">
+            <p class="section-kicker">Topic Overview</p>
+            <h2>{{ selected_topic.title }}</h2>
+            <p class="summary summary-hero">{{ summary_text }}</p>
+          </div>
+          <div class="topic-visual">
+            <div class="topic-core">
+              <span>Inside</span>
+              <strong>{{ selected_topic.title }}</strong>
+            </div>
+            <div class="topic-pill-grid">
+              {% for item in selected_topic.topics %}
+              <span class="topic-pill">{{ item }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        {% if selected_topic.sections %}
+        <div class="subtopic-nav">
+          <p class="section-kicker">Subtopics</p>
+          {% for section in selected_topic.sections %}
+          <a href="#{{ section.section_id }}">{{ section.title }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if selected_topic.examples %}
+        <div class="example-band">
+          <p class="section-kicker">How This Shows Up At Work</p>
+          <div class="example-grid">
+            {% for item in selected_topic.examples %}
+            <article class="example-card">
+              <p>{{ item }}</p>
+            </article>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        {% for section in selected_topic.sections %}
+        <div class="story-block" id="{{ section.section_id }}">
+          <h3>{{ section.title }}</h3>
+          <ul class="reading-list">
+            {% for point in section_points[section.section_id] %}
+            <li>{{ point }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endfor %}
+
+        <div class="story-block case-study-block">
+          <p class="section-kicker">Case Study</p>
+          <h3>Click here to see the case study on {{ selected_topic.title }}</h3>
+          <p class="muted">Open this practical scenario to reflect on how the topic shows up in real leadership situations.</p>
+          <button type="button" class="modal-trigger" data-modal-target="case-study-modal">Open Case Study</button>
+        </div>
+
+        <div class="learning-actions">
+          {% if selected_topic.quiz_questions %}
+          <button type="button" class="modal-trigger stacked-action" data-modal-target="quiz-modal">Take Quiz</button>
+          {% endif %}
+          {% if selected_topic.exercise_items %}
+          <button type="button" class="modal-trigger stacked-action" data-modal-target="exercise-modal">Open Exercises</button>
+          {% endif %}
+        </div>
+
+        <dialog class="modal-window" id="case-study-modal">
+          <div class="modal-card case-card">
+            <div class="modal-header">
+              <h3>{{ selected_topic.title }} Case Study</h3>
+              <form method="dialog">
+                <button type="submit" class="modal-close" aria-label="Close">Close</button>
+              </form>
+            </div>
+            <p class="muted">Use this story as a practical scenario, then capture your own reflection underneath.</p>
+            <ul class="reading-list">
+              {% for point in case_study_points %}
+              <li>{{ point }}</li>
+              {% endfor %}
+            </ul>
+            <form action="/web/case-study-note" method="post">
+              <input type="hidden" name="topic_id" value="{{ selected_topic.topic_id }}">
+              <input type="hidden" name="theme" value="{{ theme }}">
+              <label>Case Study Reflection Notes
+                <textarea name="content" rows="5" placeholder="What stands out to me here? What would I do similarly or differently?">{{ case_study_note.content if case_study_note else '' }}</textarea>
+              </label>
+              <button type="submit">Save Reflection</button>
+            </form>
+          </div>
+        </dialog>
+
+        {% if selected_topic.quiz_questions %}
+        <dialog class="modal-window" id="quiz-modal">
+          <div class="modal-card learning-card">
+            <div class="modal-header">
+              <h3>{{ selected_topic.title }} Quiz</h3>
+              <form method="dialog">
+                <button type="submit" class="modal-close" aria-label="Close">Close</button>
+              </form>
+            </div>
+            {% if selected_topic.quiz_type == "self-assessment" %}
+            <p class="muted">This is a reflective self-assessment. Answer all questions and your result will appear instantly.</p>
+            {% else %}
+            <p class="muted">Use this quick knowledge check to test your understanding and get immediate feedback.</p>
+            {% endif %}
+            <form class="quiz-form" data-quiz-type="{{ selected_topic.quiz_type }}">
+              {% for band in selected_topic.quiz_result_bands %}
+              <input type="hidden" class="quiz-band-data" data-min="{{ band.min_score }}" data-max="{{ band.max_score }}" data-title="{{ band.title }}" data-description="{{ band.description }}">
+              {% endfor %}
+              {% for question in selected_topic.quiz_questions %}
+              <fieldset class="quiz-question" data-feedback="{{ question.feedback or '' }}">
+                <legend>{{ loop.index }}. {{ question.prompt }}</legend>
+                <div class="quiz-options">
+                  {% for option in question.options %}
+                  <label class="quiz-option">
+                    <input type="radio" name="{{ question.question_id }}" value="{{ option.option_id }}" data-points="{{ option.points }}" data-correct="{{ 'true' if option.option_id == question.correct_option_id else 'false' }}">
+                    <span><strong>{{ option.label }}.</strong> {{ option.text }}</span>
+                  </label>
+                  {% endfor %}
+                </div>
+                <p class="quiz-question-result"></p>
+              </fieldset>
+              {% endfor %}
+              <button type="submit">See My Result</button>
+              <div class="quiz-result hidden" aria-live="polite"></div>
+            </form>
+          </div>
+        </dialog>
+        {% endif %}
+
+        {% if selected_topic.exercise_items %}
+        <dialog class="modal-window" id="exercise-modal">
+          <div class="modal-card learning-card exercise-popover-card">
+            <div class="modal-header">
+              <h3>{{ selected_topic.title }} Exercises</h3>
+              <form method="dialog">
+                <button type="submit" class="modal-close" aria-label="Close">Close</button>
+              </form>
+            </div>
+            <p class="muted">These exercises come from the journal draft. Use the notes area after each one to capture reflections from the work you do.</p>
+            <div class="exercise-stack">
+              {% for exercise in selected_topic.exercise_items %}
+              <article class="exercise-card">
+                <h4>{{ exercise.title }}</h4>
+                <ul class="reading-list">
+                  {% for point in exercise_points[exercise.exercise_id] %}
+                  <li>{{ point }}</li>
+                  {% endfor %}
+                </ul>
+                <form action="/web/exercise-note" method="post">
+                  <input type="hidden" name="topic_id" value="{{ selected_topic.topic_id }}">
+                  <input type="hidden" name="exercise_id" value="{{ exercise.exercise_id }}">
+                  <input type="hidden" name="theme" value="{{ theme }}">
+                  <label>Exercise Reflection Notes
+                    <textarea name="content" rows="5" placeholder="What did I notice after doing this exercise? What will I carry into my real leadership practice?">{{ exercise_notes[exercise.exercise_id].content if exercise.exercise_id in exercise_notes and exercise_notes[exercise.exercise_id] else '' }}</textarea>
+                  </label>
+                  <button type="submit">Save Exercise Notes</button>
+                </form>
+              </article>
+              {% endfor %}
+            </div>
+          </div>
+        </dialog>
+        {% endif %}
+
+        <div class="story-block">
+          <h3>Your Notes for This Topic</h3>
+          <p class="muted">Capture reflections, commitments, examples from your own team, or questions you want to return to later.</p>
+          <form action="/web/topic-note" method="post">
+            <input type="hidden" name="topic_id" value="{{ selected_topic.topic_id }}">
+            <input type="hidden" name="theme" value="{{ theme }}">
+            <label>Topic Notes
+              <textarea name="content" rows="6" placeholder="Capture reflections, actions, or questions as you read.">{{ topic_note.content if topic_note else '' }}</textarea>
+            </label>
+            <button type="submit">Save Topic Notes</button>
+          </form>
+        </div>
+
+        {% if selected_topic.book_recommendations %}
+        {% if selected_topic.course_recommendations %}
+        <div class="story-block">
+          <p class="section-kicker">Suggested Courses</p>
+          <h3>Courses to Explore for {{ selected_topic.title }}</h3>
+          <p class="muted">These are current LinkedIn Learning and Coursera recommendations mapped to this topic.</p>
+          <div class="stack">
+            {% for course in selected_topic.course_recommendations %}
+            <article class="course-card">
+              <p class="eyebrow">{{ course.provider }}</p>
+              <h4><a href="{{ course.url }}" target="_blank" rel="noreferrer">{{ course.title }}</a></h4>
+              <p class="muted course-fit">{{ course.topic_fit }}</p>
+              <p>{{ course.description }}</p>
+            </article>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="story-block topic-rating-block">
+          <p class="section-kicker">Rate This Topic</p>
+          <h3>How useful was {{ selected_topic.title }}?</h3>
+          <p class="muted">A quick rating helps improve the journal. If you choose 1 or 2 stars, we’ll ask for a little more detail.</p>
+          <form action="/web/feedback" method="post" class="topic-rating-form">
+            <input type="hidden" name="topic_id" value="{{ selected_topic.topic_id }}">
+            <input type="hidden" name="theme" value="{{ theme }}">
+            <div class="rating-row">
+              <div class="star-rating" role="radiogroup" aria-label="Rate this topic">
+                {% for value in [5, 4, 3, 2, 1] %}
+                <input type="radio" id="topic-rating-{{ value }}" name="rating" value="{{ value }}" class="star-input" required>
+                <label for="topic-rating-{{ value }}" class="star-label" title="{{ value }} star{% if value != 1 %}s{% endif %}">★</label>
+                {% endfor %}
+              </div>
+              <div class="rating-summary">
+                {% if topic_rating_summary.count %}
+                <strong>{{ "%.1f"|format(topic_rating_summary.average) }}/5</strong>
+                <span>Average from {{ topic_rating_summary.count }} rating{% if topic_rating_summary.count != 1 %}s{% endif %}</span>
+                {% else %}
+                <strong>No ratings yet</strong>
+                <span>Be the first to rate this topic.</span>
+                {% endif %}
+              </div>
+            </div>
+            <div class="rating-comment hidden">
+              <label>Tell us what needs improvement
+                <textarea name="comments" rows="4" placeholder="What felt missing, unclear, or less useful in this topic?"></textarea>
+              </label>
+            </div>
+            <button type="submit">Save Rating</button>
+          </form>
+        </div>
+
+        <div class="story-block">
+          <p class="section-kicker">Recommended Reading</p>
+          <h3>Books to Go Deeper on {{ selected_topic.title }}</h3>
+          <p class="muted">These recommendations come from the journal draft's reading list and are mapped to the topic you are reading now.</p>
+          <div class="table-wrap">
+            <table class="books-table">
+              <thead>
+                <tr>
+                  <th>Book</th>
+                  <th>Author</th>
+                  <th>Topic Fit</th>
+                  <th>Why It Helps</th>
+                  <th>Goodreads</th>
+                  <th>Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for book in selected_topic.book_recommendations %}
+                <tr>
+                  <td>{{ book.title }}</td>
+                  <td>{{ book.author }}</td>
+                  <td>{{ book.topic_fit }}</td>
+                  <td>{{ book.description }}</td>
+                  <td>
+                    {% if book.goodreads_url %}
+                    <a href="{{ book.goodreads_url }}" target="_blank" rel="noreferrer">Open</a>
+                    {% else %}
+                    <span class="muted">Add later</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if book.goodreads_rating is not none %}
+                    {{ "%.1f"|format(book.goodreads_rating) }}
+                    {% else %}
+                    <span class="muted">—</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {% endif %}
+      </section>
+
+      </div>
+    </section>
+  </main>
+  <script>
+    document.querySelectorAll(".modal-trigger").forEach((button) => {
+      button.addEventListener("click", () => {
+        const dialog = document.getElementById(button.dataset.modalTarget);
+        if (dialog) {
+          dialog.showModal();
+        }
+      });
+    });
+
+    document.querySelectorAll(".modal-window").forEach((dialog) => {
+      dialog.addEventListener("click", (event) => {
+        const bounds = dialog.getBoundingClientRect();
+        const inside =
+          bounds.left <= event.clientX &&
+          event.clientX <= bounds.right &&
+          bounds.top <= event.clientY &&
+          event.clientY <= bounds.bottom;
+        if (!inside) {
+          dialog.close();
+        }
+      });
+    });
+
+    document.querySelectorAll(".quiz-form").forEach((form) => {
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const quizType = form.dataset.quizType;
+        const result = form.querySelector(".quiz-result");
+        const questions = [...form.querySelectorAll(".quiz-question")];
+        let allAnswered = true;
+        let totalPoints = 0;
+        let correctAnswers = 0;
+
+        questions.forEach((question) => {
+          const choice = question.querySelector("input[type='radio']:checked");
+          const status = question.querySelector(".quiz-question-result");
+          question.classList.remove("quiz-question-missing", "quiz-question-correct", "quiz-question-wrong");
+          if (!choice) {
+            allAnswered = false;
+            question.classList.add("quiz-question-missing");
+            status.textContent = "Select an answer before scoring this question.";
+            return;
+          }
+
+          if (quizType === "self-assessment") {
+            totalPoints += Number(choice.dataset.points || 0);
+            status.textContent = "Recorded. Move through all questions to see your leadership-style result.";
+            return;
+          }
+
+          const isCorrect = choice.dataset.correct === "true";
+          if (isCorrect) {
+            correctAnswers += 1;
+            question.classList.add("quiz-question-correct");
+            status.textContent = "Nice call. That matches the journal's key idea.";
+          } else {
+            question.classList.add("quiz-question-wrong");
+            status.textContent = question.dataset.feedback || "Revisit this topic section and try again.";
+          }
+        });
+
+        result.classList.remove("hidden", "quiz-result-success", "quiz-result-warning");
+
+        if (!allAnswered) {
+          result.classList.add("quiz-result-warning");
+          result.innerHTML = "<strong>Finish the quiz first.</strong><span>Answer every question to see a complete result.</span>";
+          return;
+        }
+
+        if (quizType === "self-assessment") {
+          const bands = [...form.querySelectorAll(".quiz-band-data")];
+          const match = bands.find((band) => {
+            const min = Number(band.dataset.min);
+            const max = Number(band.dataset.max);
+            return totalPoints >= min && totalPoints <= max;
+          });
+          if (match) {
+            result.classList.add("quiz-result-success");
+            result.innerHTML = `<strong>${match.dataset.title}</strong><span>Your score is ${totalPoints}. ${match.dataset.description}</span>`;
+          } else {
+            result.classList.add("quiz-result-warning");
+            result.innerHTML = `<strong>Your score is ${totalPoints}.</strong><span>Use the reflection notes to capture what this says about your default style and where you want to adapt more intentionally.</span>`;
+          }
+          return;
+        }
+
+        result.classList.add("quiz-result-success");
+        result.innerHTML = `<strong>${correctAnswers} of ${questions.length} correct.</strong><span>Use the feedback above to see which ideas are already clear and which sections you may want to revisit.</span>`;
+      });
+    });
+
+    document.querySelectorAll(".topic-rating-form").forEach((form) => {
+      const stars = [...form.querySelectorAll(".star-input")];
+      const commentWrap = form.querySelector(".rating-comment");
+      const textarea = commentWrap ? commentWrap.querySelector("textarea") : null;
+
+      const syncRatingComment = () => {
+        const selected = form.querySelector(".star-input:checked");
+        const rating = selected ? Number(selected.value) : 0;
+        const needsComment = rating > 0 && rating <= 2;
+
+        if (commentWrap) {
+          commentWrap.classList.toggle("hidden", !needsComment);
+        }
+        if (textarea) {
+          textarea.required = needsComment;
+        }
+      };
+
+      stars.forEach((star) => {
+        star.addEventListener("change", syncRatingComment);
+      });
+
+      form.addEventListener("submit", (event) => {
+        const selected = form.querySelector(".star-input:checked");
+        const rating = selected ? Number(selected.value) : 0;
+        if (rating <= 2 && textarea && !textarea.value.trim()) {
+          event.preventDefault();
+          commentWrap?.classList.remove("hidden");
+          textarea.required = true;
+          textarea.focus();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

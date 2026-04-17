@@ -1,0 +1,47 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "TextBlock",
+      "size": "Medium",
+      "weight": "Bolder",
+      "text": "${headline}"
+    },
+    {
+      "type": "TextBlock",
+      "wrap": true,
+      "text": "${message}"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Medium",
+      "weight": "Bolder",
+      "text": "Why this tip"
+    },
+    {
+      "type": "TextBlock",
+      "wrap": true,
+      "text": "${reason}"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Medium",
+      "weight": "Bolder",
+      "text": "Reflection"
+    },
+    {
+      "type": "TextBlock",
+      "wrap": true,
+      "text": "${reflection_question}"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Open WiseCoach",
+      "url": "${app_url}"
+    }
+  ]
+}

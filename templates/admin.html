@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WiseJournal Administrator</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body data-theme="sunrise">
+  <main class="page">
+    <nav class="topnav">
+      <a class="topnav-link" href="/journal">Journal</a>
+      <a class="topnav-link" href="/community">Community</a>
+      {% if current_user.role.value in ["administrator", "people-leadership"] %}
+      <a class="topnav-link active" href="/admin">Administrator</a>
+      <a class="topnav-link" href="/people-leadership">People Leadership</a>
+      {% endif %}
+    </nav>
+
+    <section class="hero hero-single">
+      <div class="hero-copy">
+        <p class="eyebrow">WiseJournal Administration</p>
+        <h1>Access, feedback, and routing.</h1>
+        <p class="lede">Use this page to grant access, review learner feedback, and assign open questions to the right people leadership partner.</p>
+      </div>
+    </section>
+
+    <section class="grid">
+      <section class="card">
+        <h2>Grant Topic Access</h2>
+        <form action="/web/access" method="post" class="form-grid">
+          <label>
+            Leader
+            <select name="leader_user_id">
+              {% for user in all_users %}
+                {% if user.role.value == "leader" %}
+                <option value="{{ user.user_id }}">{{ user.name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            Topic
+            <select name="topic_id">
+              {% for topic in available_topics %}
+              <option value="{{ topic.topic_id }}">{{ topic.title }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <div class="actions">
+            <button type="submit">Grant Access</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Assign Questions</h2>
+        <div class="stack">
+          {% for question in questions %}
+          <article class="feed-item">
+            <p class="eyebrow">{{ question.status.value|replace("-", " ") }}</p>
+            <h3>{{ question.topic_id|replace("-", " ")|title }}</h3>
+            <p>{{ question.question }}</p>
+            {% if question.answer %}
+            <p class="muted"><strong>Current answer:</strong> {{ question.answer }}</p>
+            {% endif %}
+            <form action="/web/assign" method="post" class="inline-form">
+              <input type="hidden" name="question_id" value="{{ question.question_id }}">
+              <label>
+                Assign to
+                <select name="assignee_id">
+                  {% for user in all_users %}
+                    {% if user.role.value == "people-leadership" %}
+                    <option value="{{ user.user_id }}" {% if question.assigned_to == user.user_id %}selected{% endif %}>{{ user.name }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </label>
+              <button type="submit">Assign</button>
+            </form>
+          </article>
+          {% else %}
+          <p class="muted">No questions have been submitted yet.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="card wide">
+        <h2>Feedback Inbox</h2>
+        <div class="stack">
+          {% for feedback in feedback_items %}
+          <article class="feed-item">
+            <p class="eyebrow">Rating {{ feedback.rating }}/5</p>
+            <h3>{{ feedback.topic_id|replace("-", " ")|title }}</h3>
+            <p>{{ feedback.comments }}</p>
+          </article>
+          {% else %}
+          <p class="muted">No feedback has been submitted yet.</p>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="card wide">
+        <h2>Suggested Topics</h2>
+        <div class="stack">
+          {% for suggestion in topic_suggestions %}
+          <article class="feed-item">
+            <p class="eyebrow">{{ suggestion.status.value|replace("-", " ")|title }}</p>
+            <h3>{{ suggestion.topic_name }}</h3>
+            <p><strong>Details:</strong> {{ suggestion.details }}</p>
+            <p><strong>Need:</strong> {{ suggestion.need_description }}</p>
+            {% if suggestion.assigned_to %}
+            <p class="muted"><strong>Assigned to:</strong> {{ suggestion.assigned_to }}</p>
+            {% endif %}
+            {% if suggestion.approval_notes %}
+            <p><strong>Approval notes:</strong> {{ suggestion.approval_notes }}</p>
+            {% endif %}
+            <form action="/web/assign-topic-suggestion" method="post" class="inline-form">
+              <input type="hidden" name="suggestion_id" value="{{ suggestion.suggestion_id }}">
+              <label>
+                Assign to
+                <select name="assignee_id">
+                  {% for user in all_users %}
+                    {% if user.role.value == "people-leadership" %}
+                    <option value="{{ user.user_id }}" {% if suggestion.assigned_to == user.user_id %}selected{% endif %}>{{ user.name }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </label>
+              <button type="submit">Send for Approval</button>
+            </form>
+            {% if suggestion.status.value == "approved" %}
+            <form action="/web/topic-suggestion-content" method="post">
+              <input type="hidden" name="suggestion_id" value="{{ suggestion.suggestion_id }}">
+              <label>
+                Content to add on this topic
+                <textarea name="content_notes" rows="5" placeholder="Capture the outline, subtopics, examples, case studies, and learning material to add next.">{{ suggestion.content_notes or '' }}</textarea>
+              </label>
+              <button type="submit">Save Content Plan</button>
+            </form>
+            {% endif %}
+          </article>
+          {% else %}
+          <p class="muted">No topic suggestions have been submitted yet.</p>
+          {% endfor %}
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
