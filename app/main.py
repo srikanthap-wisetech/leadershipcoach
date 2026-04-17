@@ -193,9 +193,9 @@ def journal_home(
             "exercise_points": exercise_points,
             "theme": theme or "sunrise",
             "theme_options": [
-                ("sunrise", "Sunrise"),
-                ("harbor", "Harbor"),
-                ("sage", "Sage"),
+                ("sunrise", "Slate"),
+                ("harbor", "Teal"),
+                ("sage", "Stone"),
             ],
         },
     )
@@ -222,9 +222,9 @@ def community_home(request: Request, theme: str | None = None, topic_id: str | N
             "selected_topic_id": selected_topic.topic_id if selected_topic else "",
             "theme": theme or "sunrise",
             "theme_options": [
-                ("sunrise", "Sunrise"),
-                ("harbor", "Harbor"),
-                ("sage", "Sage"),
+                ("sunrise", "Slate"),
+                ("harbor", "Teal"),
+                ("sage", "Stone"),
             ],
         },
     )
