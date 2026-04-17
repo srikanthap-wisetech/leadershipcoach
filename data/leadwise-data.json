@@ -8,45 +8,39 @@
       "user_id": "leader-alex",
       "name": "Alex Leader",
       "role": "leader",
+      "email": "alex.leader@wisetechglobal.com",
       "active": true
     },
     "leader-priya": {
       "user_id": "leader-priya",
       "name": "Priya Leader",
       "role": "leader",
+      "email": "priya.leader@wisetechglobal.com",
       "active": true
     },
     "leader-marcus": {
       "user_id": "leader-marcus",
       "name": "Marcus Leader",
       "role": "leader",
+      "email": "marcus.leader@wisetechglobal.com",
       "active": true
     },
     "admin-sam": {
       "user_id": "admin-sam",
       "name": "Sam Administrator",
       "role": "administrator",
+      "email": "sam.admin@wisetechglobal.com",
       "active": true
     },
     "pl-jordan": {
       "user_id": "pl-jordan",
       "name": "Jordan People Leadership",
       "role": "people-leadership",
+      "email": "jordan.peopleleadership@wisetechglobal.com",
       "active": true
     }
   },
   "topic_access": {
-    "leader-marcus": [
-      "building-trust",
-      "cross-cultural-leadership",
-      "delegation",
-      "empathy-and-emotional-intelligence",
-      "giving-and-receiving-feedback",
-      "leadership-styles",
-      "psychological-safety-diversity-allyship",
-      "transition-to-leadership",
-      "wisetech-leadership-foundations"
-    ],
     "leader-alex": [
       "building-trust",
       "cross-cultural-leadership",
@@ -68,6 +62,17 @@
       "psychological-safety-diversity-allyship",
       "transition-to-leadership",
       "wisetech-leadership-foundations"
+    ],
+    "leader-marcus": [
+      "building-trust",
+      "cross-cultural-leadership",
+      "delegation",
+      "empathy-and-emotional-intelligence",
+      "giving-and-receiving-feedback",
+      "leadership-styles",
+      "psychological-safety-diversity-allyship",
+      "transition-to-leadership",
+      "wisetech-leadership-foundations"
     ]
   },
   "leader_feedback": {},
@@ -75,8 +80,56 @@
   "topic_questions": {},
   "leader_notes": {},
   "community_threads": {
-    "16caa48c-2d8f-47f8-9d36-9168731ff33f": {
-      "thread_id": "16caa48c-2d8f-47f8-9d36-9168731ff33f",
+    "24eef098-37b2-41df-a056-4af95ca9c5dd": {
+      "thread_id": "24eef098-37b2-41df-a056-4af95ca9c5dd",
+      "user_id": "leader-alex",
+      "topic_id": "giving-and-receiving-feedback",
+      "title": "How do you keep feedback clear without making the conversation feel heavy?",
+      "content": "I want my feedback conversations to be more useful and less loaded. I am interested in phrasing or structures that help keep the conversation grounded in behaviour and impact.",
+      "liked_by": [
+        "leader-priya"
+      ],
+      "created_at": "2026-04-17T04:59:56.886317Z",
+      "updated_at": "2026-04-17T10:00:21.787425Z",
+      "replies": [
+        {
+          "reply_id": "e272f32f-dd8c-40a7-b533-c7a00047e0f4",
+          "thread_id": "24eef098-37b2-41df-a056-4af95ca9c5dd",
+          "user_id": "leader-priya",
+          "content": "I have started asking permission before I give developmental feedback. It changes the tone immediately and makes the conversation feel more shared than corrective.",
+          "liked_by": [],
+          "created_at": "2026-04-17T04:59:56.886319Z"
+        },
+        {
+          "reply_id": "dd24b876-7e29-4753-8b0a-3381f9906959",
+          "thread_id": "24eef098-37b2-41df-a056-4af95ca9c5dd",
+          "user_id": "leader-marcus",
+          "content": "I keep coming back to one example, one impact, one next step. That structure stops me from overloading the conversation or drifting into personality language.",
+          "liked_by": [
+            "leader-alex"
+          ],
+          "created_at": "2026-04-17T04:59:56.886323Z"
+        },
+        {
+          "reply_id": "6cd50669-bd56-48d2-98e5-d264d1067362",
+          "thread_id": "24eef098-37b2-41df-a056-4af95ca9c5dd",
+          "user_id": "leader-marcus",
+          "content": "Testing follow notifications from a new reply in this thread.",
+          "liked_by": [],
+          "created_at": "2026-04-17T09:59:41.813749Z"
+        },
+        {
+          "reply_id": "adfd3836-4387-4ff2-a4c7-89745176da09",
+          "thread_id": "24eef098-37b2-41df-a056-4af95ca9c5dd",
+          "user_id": "leader-marcus",
+          "content": "Testing follow notifications from a new reply in this thread.",
+          "liked_by": [],
+          "created_at": "2026-04-17T10:00:21.763637Z"
+        }
+      ]
+    },
+    "aa67bfb7-31d6-4ee8-8223-aa0df0b2b7ba": {
+      "thread_id": "aa67bfb7-31d6-4ee8-8223-aa0df0b2b7ba",
       "user_id": "leader-priya",
       "topic_id": "leadership-styles",
       "title": "How are others adapting their leadership style when a strong performer starts slipping?",
@@ -84,31 +137,31 @@
       "liked_by": [
         "leader-alex"
       ],
-      "created_at": "2026-04-17T09:32:20.315743Z",
-      "updated_at": "2026-04-17T09:32:20.315748Z",
+      "created_at": "2026-04-17T10:00:22.691356Z",
+      "updated_at": "2026-04-17T10:00:22.691359Z",
       "replies": [
         {
-          "reply_id": "77ad8a97-c4de-46fc-a70e-9a6b0f59803c",
-          "thread_id": "16caa48c-2d8f-47f8-9d36-9168731ff33f",
+          "reply_id": "59c541ce-66c9-4da9-85ac-60c02ccf2385",
+          "thread_id": "aa67bfb7-31d6-4ee8-8223-aa0df0b2b7ba",
           "user_id": "leader-marcus",
           "content": "I usually start with a coaching conversation first so I can understand what changed. If the context is personal or workload-related, that often tells me whether more direction or more support is actually needed.",
           "liked_by": [
             "leader-alex"
           ],
-          "created_at": "2026-04-17T09:32:20.315754Z"
+          "created_at": "2026-04-17T10:00:22.691363Z"
         },
         {
-          "reply_id": "23112d63-ae11-4d23-b40b-954a8cb6a6d6",
-          "thread_id": "16caa48c-2d8f-47f8-9d36-9168731ff33f",
+          "reply_id": "a8da3255-c298-4a13-8c0c-2c7c67f10883",
+          "thread_id": "aa67bfb7-31d6-4ee8-8223-aa0df0b2b7ba",
           "user_id": "leader-alex",
           "content": "I have found it helps to say explicitly that I am adjusting my style for the moment rather than taking autonomy away permanently. That keeps trust intact while still giving the person more structure.",
           "liked_by": [],
-          "created_at": "2026-04-17T09:32:20.315828Z"
+          "created_at": "2026-04-17T10:00:22.691377Z"
         }
       ]
     },
-    "e60b9540-d2b2-4d43-80fe-81e7f8837912": {
-      "thread_id": "e60b9540-d2b2-4d43-80fe-81e7f8837912",
+    "8f5f9a7a-ae12-4512-b866-484a1a312cbb": {
+      "thread_id": "8f5f9a7a-ae12-4512-b866-484a1a312cbb",
       "user_id": "leader-marcus",
       "topic_id": "building-trust",
       "title": "What is one trust-building habit that has worked well in your team?",
@@ -117,52 +170,75 @@
         "leader-priya",
         "leader-alex"
       ],
-      "created_at": "2026-04-17T09:32:20.315851Z",
-      "updated_at": "2026-04-17T09:32:20.315852Z",
+      "created_at": "2026-04-17T10:00:22.691385Z",
+      "updated_at": "2026-04-17T10:00:48.952690Z",
       "replies": [
         {
-          "reply_id": "b87d4c70-65fb-4270-b8a8-83b03bc22235",
-          "thread_id": "e60b9540-d2b2-4d43-80fe-81e7f8837912",
+          "reply_id": "a4690e04-10f1-4cf8-bc29-ca87f52ea769",
+          "thread_id": "8f5f9a7a-ae12-4512-b866-484a1a312cbb",
           "user_id": "leader-priya",
           "content": "I now close every one-on-one by repeating back the one commitment I am taking away. It sounds small, but people notice when that action happens before the next check-in.",
           "liked_by": [
             "leader-alex"
           ],
-          "created_at": "2026-04-17T09:32:20.315857Z"
-        }
-      ]
-    },
-    "5f51b733-e4d0-40b5-b355-5e8e48b1d271": {
-      "thread_id": "5f51b733-e4d0-40b5-b355-5e8e48b1d271",
-      "user_id": "leader-alex",
-      "topic_id": "giving-and-receiving-feedback",
-      "title": "How do you keep feedback clear without making the conversation feel heavy?",
-      "content": "I want my feedback conversations to be more useful and less loaded. I am interested in phrasing or structures that help keep the conversation grounded in behaviour and impact.",
-      "liked_by": [
-        "leader-priya"
-      ],
-      "created_at": "2026-04-17T09:32:20.315867Z",
-      "updated_at": "2026-04-17T09:32:20.315867Z",
-      "replies": [
-        {
-          "reply_id": "cd465a1f-d3d1-498d-b248-e2bda66d0c6e",
-          "thread_id": "5f51b733-e4d0-40b5-b355-5e8e48b1d271",
-          "user_id": "leader-priya",
-          "content": "I have started asking permission before I give developmental feedback. It changes the tone immediately and makes the conversation feel more shared than corrective.",
-          "liked_by": [],
-          "created_at": "2026-04-17T09:32:20.315872Z"
+          "created_at": "2026-04-17T10:00:22.691388Z"
         },
         {
-          "reply_id": "a5926de7-9bf8-4663-aad8-e45d5336b1aa",
-          "thread_id": "5f51b733-e4d0-40b5-b355-5e8e48b1d271",
+          "reply_id": "32113c85-e3e5-4d2a-9341-1ef71011b5f1",
+          "thread_id": "8f5f9a7a-ae12-4512-b866-484a1a312cbb",
           "user_id": "leader-marcus",
-          "content": "I keep coming back to one example, one impact, one next step. That structure stops me from overloading the conversation or drifting into personality language.",
-          "liked_by": [
-            "leader-alex"
-          ],
-          "created_at": "2026-04-17T09:32:20.315879Z"
+          "content": "Notification verification reply for followers.",
+          "liked_by": [],
+          "created_at": "2026-04-17T10:00:48.916910Z"
         }
       ]
+    }
+  },
+  "community_thread_follows": {
+    "756a660c-97b0-40f4-8958-344d0ba4f3b4": {
+      "follow_id": "756a660c-97b0-40f4-8958-344d0ba4f3b4",
+      "thread_id": "8f5f9a7a-ae12-4512-b866-484a1a312cbb",
+      "user_id": "leader-alex",
+      "channel": "email",
+      "created_at": "2026-04-17T10:00:35.669747Z"
+    },
+    "d1628103-73be-4644-95d8-acfdbb08c3df": {
+      "follow_id": "d1628103-73be-4644-95d8-acfdbb08c3df",
+      "thread_id": "8f5f9a7a-ae12-4512-b866-484a1a312cbb",
+      "user_id": "leader-priya",
+      "channel": "email",
+      "created_at": "2026-04-17T10:00:48.863677Z"
+    },
+    "82dcb7dd-88e7-499f-9b0a-4dfa93bfa5bf": {
+      "follow_id": "82dcb7dd-88e7-499f-9b0a-4dfa93bfa5bf",
+      "thread_id": "8f5f9a7a-ae12-4512-b866-484a1a312cbb",
+      "user_id": "leader-marcus",
+      "channel": "email",
+      "created_at": "2026-04-17T10:00:48.888008Z"
+    }
+  },
+  "community_notifications": {
+    "b262870e-49ad-4b65-854a-73a2c8fc7208": {
+      "notification_id": "b262870e-49ad-4b65-854a-73a2c8fc7208",
+      "thread_id": "8f5f9a7a-ae12-4512-b866-484a1a312cbb",
+      "user_id": "leader-priya",
+      "channel": "email",
+      "destination": "priya.leader@wisetechglobal.com",
+      "subject": "LeadWise thread update: What is one trust-building habit that has worked well in your team?",
+      "preview": "Marcus Leader replied: Notification verification reply for followers.",
+      "status": "queued",
+      "created_at": "2026-04-17T10:00:48.918329Z"
+    },
+    "fb1e977e-6173-4862-9472-e1e02c22da89": {
+      "notification_id": "fb1e977e-6173-4862-9472-e1e02c22da89",
+      "thread_id": "8f5f9a7a-ae12-4512-b866-484a1a312cbb",
+      "user_id": "leader-alex",
+      "channel": "email",
+      "destination": "alex.leader@wisetechglobal.com",
+      "subject": "LeadWise thread update: What is one trust-building habit that has worked well in your team?",
+      "preview": "Marcus Leader replied: Notification verification reply for followers.",
+      "status": "queued",
+      "created_at": "2026-04-17T10:00:48.950473Z"
     }
   }
 }

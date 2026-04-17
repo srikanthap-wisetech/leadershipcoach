@@ -21,7 +21,7 @@
         </div>
         <nav class="topnav">
           <a class="topnav-link" href="/">Home</a>
-          <a class="topnav-link active" href="/journal?topic_id={{ selected_topic.topic_id }}&theme={{ theme }}">Journal</a>
+          <a class="topnav-link active" href="/journal?topic_id={{ selected_topic.topic_id }}&theme={{ theme }}{% if search_query %}&search={{ search_query|urlencode }}{% endif %}">Journal</a>
           <a class="topnav-link" href="/community?theme={{ theme }}">Community</a>
           {% if current_user.role.value in ["administrator", "people-leadership"] %}
           <a class="topnav-link" href="/admin?theme={{ theme }}">Administrator</a>
@@ -34,7 +34,7 @@
           <span class="theme-label">Theme</span>
           <div class="theme-options">
             {% for theme_value, theme_label in theme_options %}
-            <a class="theme-chip {% if theme == theme_value %}active{% endif %}" href="/journal?topic_id={{ selected_topic.topic_id }}&theme={{ theme_value }}">{{ theme_label }}</a>
+            <a class="theme-chip {% if theme == theme_value %}active{% endif %}" href="/journal?topic_id={{ selected_topic.topic_id }}&theme={{ theme_value }}{% if search_query %}&search={{ search_query|urlencode }}{% endif %}">{{ theme_label }}</a>
             {% endfor %}
           </div>
         </div>
@@ -183,13 +183,21 @@
     <section class="portal-layout">
       <aside class="card sidebar">
         <h2>Topics</h2>
+        <form action="/journal" method="get" class="search-form">
+          <input type="hidden" name="theme" value="{{ theme }}">
+          <input type="text" name="search" value="{{ search_query }}" placeholder="Search topics">
+          <button type="submit">Search</button>
+        </form>
         <nav class="topic-nav">
           {% for topic in available_topics %}
-          <a class="topic-link {% if topic.topic_id == selected_topic.topic_id %}active{% endif %}" href="/journal?topic_id={{ topic.topic_id }}&theme={{ theme }}">
+          <a class="topic-link {% if topic.topic_id == selected_topic.topic_id %}active{% endif %}" href="/journal?topic_id={{ topic.topic_id }}&theme={{ theme }}{% if search_query %}&search={{ search_query|urlencode }}{% endif %}">
             <span class="topic-link-title">{{ topic.title }}</span>
           </a>
           {% endfor %}
         </nav>
+        {% if not available_topics %}
+        <p class="muted search-empty">No topics matched "{{ search_query }}".</p>
+        {% endif %}
 
       </aside>
 

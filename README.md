@@ -8,12 +8,15 @@ LeadWise currently supports:
 
 - a branded landing page with entry points into `Journal` and `Community`
 - a topic-first leadership journal with rich topic pages
+- journal search to quickly find topics by title or content
 - topic summaries, deeper subtopics, practical workplace examples, case studies, quizzes, exercises, notes, suggested courses, and recommended reading
 - per-topic star ratings with average scores across users
 - shared feedback, question, and suggested-topic actions
-- a threaded community area with topic filters, replies, support reactions, and collapsible conversations
+- a threaded community area with topic filters, replies, support reactions, collapsible conversations, and follow-thread subscriptions
+- community search to find conversations by topic, thread title, thread content, or replies
 - a suggested-topic workflow from leader submission through administrator review and people leadership approval
-- local persistence for feedback, questions, notes, goals, issues, community threads, and workflow state
+- queued email-style alerts for followed threads when new replies are added
+- local persistence for feedback, questions, notes, goals, issues, community threads, follow records, notification queue items, and workflow state
 
 ## Main experiences
 
@@ -31,6 +34,7 @@ The landing page is the front door to LeadWise. It now includes:
 The journal is the main learning space for leaders. It includes:
 
 - left-side topic navigation
+- topic search
 - rich topic pages with overviews and structured subtopics
 - practical workplace examples built into the topic flow
 - case studies in popup format
@@ -47,8 +51,11 @@ The community is a thread-based discussion space for leaders. It includes:
 
 - topic-tagged conversations
 - filters to browse threads by topic
+- conversation search
 - replies and support reactions
 - collapsible threads
+- follow-thread controls
+- queued email notifications for followed conversations
 - a shared set of actions for feedback, questions, and topic suggestions
 
 ### 4. Administrator and People Leadership workflows
@@ -65,6 +72,7 @@ The portal includes internal workflow pages for:
 ## Roles
 
 - `Leader`: reads journal content, completes quizzes and exercises, saves notes, joins community conversations, rates topics, and submits feedback/questions/topic suggestions.
+- `Leader`: reads journal content, completes quizzes and exercises, saves notes, joins community conversations, follows threads, rates topics, and submits feedback/questions/topic suggestions.
 - `Administrator`: grants access, reviews feedback, routes questions, and manages suggested-topic workflow.
 - `People leadership team`: answers submitted questions and reviews/approves suggested topics with content guidance.
 
@@ -115,4 +123,6 @@ The current version is web-first by design. The service structure still leaves r
 - single sign-on and role-based access
 - production-ready storage
 - deeper analytics and reporting
+- real outbound email delivery for queued thread alerts
+- Teams notifications for followed conversations
 - Microsoft Teams integration later using the same backend and content model

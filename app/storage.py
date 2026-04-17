@@ -6,6 +6,8 @@ from pathlib import Path
 
 from app.models import (
     CoachingIssue,
+    CommunityNotification,
+    CommunityThreadFollow,
     CommunityThread,
     DevelopmentGoal,
     GoalCheckIn,
@@ -42,6 +44,8 @@ class JsonStore:
             "topic_questions": {},
             "leader_notes": {},
             "community_threads": {},
+            "community_thread_follows": {},
+            "community_notifications": {},
         }
 
     def initialize(self) -> None:
@@ -52,7 +56,7 @@ class JsonStore:
             self._write(self._empty_payload())
         else:
             data = self._read()
-            for key in ["portal_users", "topic_access", "leader_feedback", "topic_suggestions", "topic_questions", "leader_notes", "community_threads"]:
+            for key in ["portal_users", "topic_access", "leader_feedback", "topic_suggestions", "topic_questions", "leader_notes", "community_threads", "community_thread_follows", "community_notifications"]:
                 data.setdefault(key, {})
             self._write(data)
 
@@ -220,6 +224,38 @@ class JsonStore:
         data = self._read()
         threads = [CommunityThread.model_validate(payload) for payload in data["community_threads"].values()]
         return sorted(threads, key=lambda item: item.updated_at, reverse=True)
+
+    def upsert_community_thread_follow(self, follow: CommunityThreadFollow) -> None:
+        data = self._read()
+        data["community_thread_follows"][follow.follow_id] = follow.model_dump(mode="json")
+        self._write(data)
+
+    def delete_community_thread_follow(self, follow_id: str) -> None:
+        data = self._read()
+        data["community_thread_follows"].pop(follow_id, None)
+        self._write(data)
+
+    def list_community_thread_follows(self) -> list[CommunityThreadFollow]:
+        data = self._read()
+        follows = [CommunityThreadFollow.model_validate(payload) for payload in data["community_thread_follows"].values()]
+        return sorted(follows, key=lambda item: item.created_at, reverse=True)
+
+    def get_community_thread_follow(self, thread_id: str, user_id: str) -> CommunityThreadFollow | None:
+        data = self._read()
+        for payload in data["community_thread_follows"].values():
+            if payload["thread_id"] == thread_id and payload["user_id"] == user_id:
+                return CommunityThreadFollow.model_validate(payload)
+        return None
+
+    def insert_community_notification(self, notification: CommunityNotification) -> None:
+        data = self._read()
+        data["community_notifications"][notification.notification_id] = notification.model_dump(mode="json")
+        self._write(data)
+
+    def list_community_notifications(self) -> list[CommunityNotification]:
+        data = self._read()
+        notifications = [CommunityNotification.model_validate(payload) for payload in data["community_notifications"].values()]
+        return sorted(notifications, key=lambda item: item.created_at, reverse=True)
 
     def _read(self) -> dict:
         raw = DB_PATH.read_text(encoding="utf-8").strip()

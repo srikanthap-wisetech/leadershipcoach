@@ -6,7 +6,9 @@ from uuid import uuid4
 
 from app.models import (
     BookRecommendation,
+    CommunityNotification,
     CommunityReply,
+    CommunityThreadFollow,
     CommunityThread,
     CourseRecommendation,
     LeaderFeedback,
@@ -1123,15 +1125,16 @@ class LeadershipBasicsPortal:
 
     def _seed_defaults(self) -> None:
         default_users = [
-            PortalUser(user_id="leader-alex", name="Alex Leader", role=UserRole.LEADER),
-            PortalUser(user_id="leader-priya", name="Priya Leader", role=UserRole.LEADER),
-            PortalUser(user_id="leader-marcus", name="Marcus Leader", role=UserRole.LEADER),
-            PortalUser(user_id="admin-sam", name="Sam Administrator", role=UserRole.ADMINISTRATOR),
-            PortalUser(user_id="pl-jordan", name="Jordan People Leadership", role=UserRole.PEOPLE_LEADERSHIP),
+            PortalUser(user_id="leader-alex", name="Alex Leader", role=UserRole.LEADER, email="alex.leader@wisetechglobal.com"),
+            PortalUser(user_id="leader-priya", name="Priya Leader", role=UserRole.LEADER, email="priya.leader@wisetechglobal.com"),
+            PortalUser(user_id="leader-marcus", name="Marcus Leader", role=UserRole.LEADER, email="marcus.leader@wisetechglobal.com"),
+            PortalUser(user_id="admin-sam", name="Sam Administrator", role=UserRole.ADMINISTRATOR, email="sam.admin@wisetechglobal.com"),
+            PortalUser(user_id="pl-jordan", name="Jordan People Leadership", role=UserRole.PEOPLE_LEADERSHIP, email="jordan.peopleleadership@wisetechglobal.com"),
         ]
-        existing = {user.user_id for user in store.list_portal_users()}
+        existing = {user.user_id: user for user in store.list_portal_users()}
         for user in default_users:
-            if user.user_id not in existing:
+            current = existing.get(user.user_id)
+            if not current or current.email != user.email or current.name != user.name or current.role != user.role:
                 store.upsert_portal_user(user)
         for leader_id in ["leader-alex", "leader-priya", "leader-marcus"]:
             for topic in self._topics:
@@ -1184,6 +1187,28 @@ class LeadershipBasicsPortal:
             return self._topics
         granted = set(store.get_topic_access(user_id))
         return [topic for topic in self._topics if topic.topic_id in granted]
+
+    def search_topics_for_user(self, user_id: str, query: str) -> list[LeadershipTopic]:
+        topics = self.accessible_topics_for_user(user_id)
+        search = query.strip().lower()
+        if not search:
+            return topics
+
+        def matches(topic: LeadershipTopic) -> bool:
+            haystacks = [
+                topic.title,
+                topic.summary,
+                *topic.topics,
+                *topic.examples,
+                topic.case_study,
+                *(section.title for section in topic.sections),
+                *(section.content for section in topic.sections),
+                *(item.title for item in topic.exercise_items),
+                *(item.details for item in topic.exercise_items),
+            ]
+            return any(search in (item or "").lower() for item in haystacks)
+
+        return [topic for topic in topics if matches(topic)]
 
     def add_feedback(self, user_id: str, topic_id: str, rating: int, comments: str) -> LeaderFeedback:
         feedback = LeaderFeedback(
@@ -1418,28 +1443,113 @@ class LeadershipBasicsPortal:
             updated_at=utc_now(),
         )
         store.insert_community_thread(thread)
+        self.follow_thread(thread.thread_id, user_id)
         return thread
 
     def list_community_threads(self) -> list[CommunityThread]:
         self._ensure_sample_community_threads()
         return store.list_community_threads()
 
+    def search_community_threads(self, query: str, *, topic_id: str | None = None) -> list[CommunityThread]:
+        threads = self.list_community_threads()
+        if topic_id:
+            threads = [thread for thread in threads if thread.topic_id == topic_id]
+
+        search = query.strip().lower()
+        if not search:
+            return threads
+
+        topic_lookup = {topic.topic_id: topic.title for topic in self._topics}
+
+        def matches(thread: CommunityThread) -> bool:
+            haystacks = [
+                thread.title,
+                thread.content,
+                topic_lookup.get(thread.topic_id or "", ""),
+                *(reply.content for reply in thread.replies),
+            ]
+            return any(search in (item or "").lower() for item in haystacks)
+
+        return [thread for thread in threads if matches(thread)]
+
     def add_community_reply(self, thread_id: str, user_id: str, content: str) -> CommunityThread | None:
         thread = store.get_community_thread(thread_id)
         if not thread:
             return None
-        thread.replies.append(
-            CommunityReply(
-                reply_id=str(uuid4()),
-                thread_id=thread_id,
-                user_id=user_id,
-                content=content,
-                created_at=utc_now(),
-            )
+        reply = CommunityReply(
+            reply_id=str(uuid4()),
+            thread_id=thread_id,
+            user_id=user_id,
+            content=content,
+            created_at=utc_now(),
         )
+        thread.replies.append(
+            reply
+        )
+        self.follow_thread(thread_id, user_id)
+        self._queue_thread_notifications(thread=thread, actor_user_id=user_id, reply=reply)
         thread.updated_at = utc_now()
         store.update_community_thread(thread)
         return thread
+
+    def follow_thread(self, thread_id: str, user_id: str) -> CommunityThreadFollow:
+        existing = store.get_community_thread_follow(thread_id, user_id)
+        if existing:
+            return existing
+        follow = CommunityThreadFollow(
+            follow_id=str(uuid4()),
+            thread_id=thread_id,
+            user_id=user_id,
+            created_at=utc_now(),
+        )
+        store.upsert_community_thread_follow(follow)
+        return follow
+
+    def unfollow_thread(self, thread_id: str, user_id: str) -> None:
+        existing = store.get_community_thread_follow(thread_id, user_id)
+        if existing:
+            store.delete_community_thread_follow(existing.follow_id)
+
+    def toggle_thread_follow(self, thread_id: str, user_id: str) -> bool:
+        existing = store.get_community_thread_follow(thread_id, user_id)
+        if existing:
+            store.delete_community_thread_follow(existing.follow_id)
+            return False
+        self.follow_thread(thread_id, user_id)
+        return True
+
+    def is_following_thread(self, thread_id: str, user_id: str) -> bool:
+        return store.get_community_thread_follow(thread_id, user_id) is not None
+
+    def follower_count(self, thread_id: str) -> int:
+        return len([item for item in store.list_community_thread_follows() if item.thread_id == thread_id])
+
+    def followed_thread_ids_for_user(self, user_id: str) -> set[str]:
+        return {item.thread_id for item in store.list_community_thread_follows() if item.user_id == user_id}
+
+    def list_notifications_for_user(self, user_id: str) -> list[CommunityNotification]:
+        return [item for item in store.list_community_notifications() if item.user_id == user_id]
+
+    def _queue_thread_notifications(self, thread: CommunityThread, actor_user_id: str, reply: CommunityReply) -> None:
+        followers = [item for item in store.list_community_thread_follows() if item.thread_id == thread.thread_id]
+        actor = store.get_portal_user(actor_user_id)
+        actor_name = actor.name if actor else "A leader"
+        for follow in followers:
+            if follow.user_id == actor_user_id:
+                continue
+            user = store.get_portal_user(follow.user_id)
+            if not user or not user.email:
+                continue
+            notification = CommunityNotification(
+                notification_id=str(uuid4()),
+                thread_id=thread.thread_id,
+                user_id=follow.user_id,
+                destination=user.email,
+                subject=f"LeadWise thread update: {thread.title}",
+                preview=f"{actor_name} replied: {reply.content[:140]}",
+                created_at=utc_now(),
+            )
+            store.insert_community_notification(notification)
 
     def toggle_thread_like(self, thread_id: str, user_id: str) -> CommunityThread | None:
         thread = store.get_community_thread(thread_id)

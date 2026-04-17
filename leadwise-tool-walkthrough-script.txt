@@ -15,6 +15,9 @@ That makes the experience feel simple from the start. If I want structured learn
 [Click into Journal]
 When I open the journal, I can see all leadership topics on the left-hand side. This makes it easy to move between topics depending on what is most relevant to me as a leader right now.
 
+[Pause on search]
+There is also a topic search in the journal, so if I already know the leadership area I want, I can quickly search for it instead of scanning the full list.
+
 [Move cursor down topic list]
 For example, I can open topics such as Leadership Styles, Delegation, Building Trust, Empathy and Emotional Intelligence, Psychological Safety, Diversity, Inclusion, Belonging and Allyship, Cross-Cultural Leadership, and Giving and Receiving Feedback.
 
@@ -44,6 +47,12 @@ LeadWise also includes a Community space.
 
 [Pause]
 This is a thread-based conversation area where leaders can ask questions, start discussions, respond to one another, and support useful contributions. Leaders can browse conversations by topic, collapse and expand threads, and follow practical discussions connected to the same themes they are exploring in the journal.
+
+[Pause on search]
+The community also includes a search bar, which makes it easier to find conversations by topic, thread title, or discussion content.
+
+[Pause on follow thread]
+Leaders can also follow a thread they care about. That means when a new reply is added, the platform can queue an email-style alert for the followers of that conversation. This gives the community a much better chance of staying active, because people do not need to keep checking the page manually to know that something changed.
 
 [Pause on Suggest New Topics]
 Another important feature is the ability to suggest new topics. If leaders feel there is an important capability or challenge not yet covered, they can recommend it directly through the portal.

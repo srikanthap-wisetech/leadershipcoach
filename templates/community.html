@@ -34,7 +34,7 @@
           <span class="theme-label">Theme</span>
           <div class="theme-options">
             {% for theme_value, theme_label in theme_options %}
-            <a class="theme-chip {% if theme == theme_value %}active{% endif %}" href="/community?theme={{ theme_value }}{% if selected_topic_id %}&topic_id={{ selected_topic_id }}{% endif %}">{{ theme_label }}</a>
+            <a class="theme-chip {% if theme == theme_value %}active{% endif %}" href="/community?theme={{ theme_value }}{% if selected_topic_id %}&topic_id={{ selected_topic_id }}{% endif %}{% if search_query %}&search={{ search_query|urlencode }}{% endif %}">{{ theme_label }}</a>
             {% endfor %}
           </div>
         </div>
@@ -148,6 +148,12 @@
               <p>Browse conversations by leadership topic so you can stay close to the areas you are actively working on.</p>
             </article>
           </div>
+          <div class="community-follow-note">
+            <p class="muted">Follow a thread to receive email alerts when new replies are added. With single sign-on, these alerts can later go straight to each leader’s work email or Teams notifications.</p>
+            {% if notification_count %}
+            <span class="follow-alert-pill">{{ notification_count }} email alerts queued</span>
+            {% endif %}
+          </div>
         </div>
       </div>
     </section>
@@ -209,12 +215,20 @@
           <div>
             <h2>Leader Conversations</h2>
             <p class="muted">All leaders with portal access can read these threads, respond, and react to what helps.</p>
+            <form action="/community" method="get" class="search-form community-search-form">
+              <input type="hidden" name="theme" value="{{ theme }}">
+              {% if selected_topic_id %}
+              <input type="hidden" name="topic_id" value="{{ selected_topic_id }}">
+              {% endif %}
+              <input type="text" name="search" value="{{ search_query }}" placeholder="Search conversations or topics">
+              <button type="submit">Search</button>
+            </form>
             <div class="community-filter-panel">
               <p class="section-kicker">Browse by topic</p>
               <div class="community-topic-filters">
-                <a class="topic-filter-chip {% if not selected_topic_id %}active{% endif %}" href="/community?theme={{ theme }}">All topics</a>
+                <a class="topic-filter-chip {% if not selected_topic_id %}active{% endif %}" href="/community?theme={{ theme }}{% if search_query %}&search={{ search_query|urlencode }}{% endif %}">All topics</a>
                 {% for topic in available_topics %}
-                <a class="topic-filter-chip {% if selected_topic_id == topic.topic_id %}active{% endif %}" href="/community?theme={{ theme }}&topic_id={{ topic.topic_id }}">{{ topic.title }}</a>
+                <a class="topic-filter-chip {% if selected_topic_id == topic.topic_id %}active{% endif %}" href="/community?theme={{ theme }}&topic_id={{ topic.topic_id }}{% if search_query %}&search={{ search_query|urlencode }}{% endif %}">{{ topic.title }}</a>
                 {% endfor %}
               </div>
             </div>
@@ -246,6 +260,14 @@
                 {% endif %}
               </div>
               <div class="thread-header-actions">
+                <form action="/web/community-follow" method="post" class="community-follow-form">
+                  <input type="hidden" name="thread_id" value="{{ thread.thread_id }}">
+                  <input type="hidden" name="theme" value="{{ theme }}">
+                  <input type="hidden" name="topic_id" value="{{ selected_topic_id }}">
+                  <button type="submit" class="ghost-button follow-button">
+                    {% if thread.thread_id in followed_thread_ids %}Following{% else %}Follow thread{% endif %}
+                  </button>
+                </form>
                 <button
                   type="button"
                   class="ghost-button thread-toggle"
@@ -259,6 +281,9 @@
             <div class="community-thread-panel" id="thread-panel-{{ thread.thread_id }}">
               <div class="community-thread-body">
                 <p class="thread-section-label">Conversation</p>
+                <div class="thread-follow-meta">
+                  <span class="follow-count-pill">{{ thread_follow_counts.get(thread.thread_id, 0) }} following</span>
+                </div>
                 <p>{{ thread.content }}</p>
               </div>
 
@@ -312,8 +337,8 @@
           </article>
           {% else %}
           <article class="feed-item">
-            <h3>No conversations yet for this topic</h3>
-            <p class="muted">There are no community threads in this topic yet. Start the first conversation to help leaders share questions, examples, and ideas in this area.</p>
+            <h3>No conversations found</h3>
+            <p class="muted">{% if search_query %}No conversations matched "{{ search_query }}"{% if selected_topic_id %} in this topic{% endif %}.{% else %}There are no community threads in this topic yet.{% endif %} Start the first conversation to help leaders share questions, examples, and ideas in this area.</p>
           </article>
           {% endfor %}
         </div>

@@ -206,6 +206,7 @@ class PortalUser(BaseModel):
     user_id: str
     name: str
     role: UserRole
+    email: str | None = None
     active: bool = True
 
 
@@ -354,3 +355,23 @@ class CommunityThread(BaseModel):
     created_at: datetime
     updated_at: datetime
     replies: List[CommunityReply] = Field(default_factory=list)
+
+
+class CommunityThreadFollow(BaseModel):
+    follow_id: str
+    thread_id: str
+    user_id: str
+    channel: DeliveryChannel = DeliveryChannel.EMAIL
+    created_at: datetime
+
+
+class CommunityNotification(BaseModel):
+    notification_id: str
+    thread_id: str
+    user_id: str
+    channel: DeliveryChannel = DeliveryChannel.EMAIL
+    destination: str
+    subject: str
+    preview: str
+    status: str = "queued"
+    created_at: datetime

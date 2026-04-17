@@ -155,10 +155,14 @@ def journal_home(
     request: Request,
     topic_id: str | None = None,
     theme: str | None = None,
+    search: str | None = None,
 ):
     current_user = portal.leader_user()
+    search_query = (search or "").strip()
+    available_topics = portal.search_topics_for_user(current_user.user_id, search_query)
     selected_topic = portal.get_topic(topic_id)
-    available_topics = portal.accessible_topics_for_user(current_user.user_id)
+    if available_topics:
+        selected_topic = next((topic for topic in available_topics if topic.topic_id == selected_topic.topic_id), available_topics[0])
     topic_note = portal.get_note(current_user.user_id, selected_topic.topic_id)
     case_study_note = portal.get_note(current_user.user_id, selected_topic.topic_id, "case-study")
     topic_rating_summary = portal.topic_rating_summary(selected_topic.topic_id)
@@ -184,6 +188,7 @@ def journal_home(
             "selected_topic": selected_topic,
             "summary_text": _reframe_summary(selected_topic.summary),
             "available_topics": available_topics,
+            "search_query": search_query,
             "topic_note": topic_note,
             "case_study_note": case_study_note,
             "topic_rating_summary": topic_rating_summary,
@@ -204,11 +209,13 @@ def journal_home(
 @app.get("/community")
 def community_home(request: Request, theme: str | None = None, topic_id: str | None = None):
     current_user = portal.leader_user()
+    search = request.query_params.get("search", "")
+    search_query = search.strip()
     leader_members = portal.list_leader_community_members()
     available_topics = portal.accessible_topics_for_user(current_user.user_id)
-    all_threads = portal.list_community_threads()
     selected_topic = next((topic for topic in available_topics if topic.topic_id == topic_id), None)
-    threads = [thread for thread in all_threads if thread.topic_id == topic_id] if selected_topic else all_threads
+    all_threads = portal.list_community_threads()
+    threads = portal.search_community_threads(search_query, topic_id=selected_topic.topic_id if selected_topic else None)
     return templates.TemplateResponse(
         request,
         "community.html",
@@ -219,7 +226,11 @@ def community_home(request: Request, theme: str | None = None, topic_id: str | N
             "leader_members": leader_members,
             "user_lookup": {user.user_id: user for user in leader_members},
             "topic_lookup": {topic.topic_id: topic for topic in available_topics},
+            "followed_thread_ids": portal.followed_thread_ids_for_user(current_user.user_id),
+            "thread_follow_counts": {thread.thread_id: portal.follower_count(thread.thread_id) for thread in all_threads},
+            "notification_count": len(portal.list_notifications_for_user(current_user.user_id)),
             "selected_topic_id": selected_topic.topic_id if selected_topic else "",
+            "search_query": search_query,
             "theme": theme or "sunrise",
             "theme_options": [
                 ("sunrise", "Slate"),
@@ -335,6 +346,17 @@ def add_community_reply(
     topic_id: str = Form(""),
 ):
     portal.add_community_reply(thread_id=thread_id, user_id="leader-alex", content=content)
+    query = urlencode({key: value for key, value in {"theme": theme, "topic_id": topic_id}.items() if value})
+    return RedirectResponse(url=f"/community?{query}" if query else "/community", status_code=303)
+
+
+@app.post("/web/community-follow")
+def toggle_community_follow(
+    thread_id: str = Form(...),
+    theme: str = Form("sunrise"),
+    topic_id: str = Form(""),
+):
+    portal.toggle_thread_follow(thread_id=thread_id, user_id="leader-alex")
     query = urlencode({key: value for key, value in {"theme": theme, "topic_id": topic_id}.items() if value})
     return RedirectResponse(url=f"/community?{query}" if query else "/community", status_code=303)
 
