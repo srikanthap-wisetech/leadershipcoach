@@ -1340,6 +1340,167 @@ class LeadershipBasicsPortal:
         store.upsert_leader_note(note)
         return note
 
+    def list_notes_for_user(self, user_id: str) -> list[dict[str, object]]:
+        notes: list[dict[str, object]] = []
+        topic_lookup = {topic.topic_id: topic for topic in self._topics}
+        for topic in self._topics:
+            for note in store.list_leader_notes(user_id, topic.topic_id):
+                note_type = "Topic note"
+                note_title = topic.title
+                if note.exercise_id == "case-study":
+                    note_type = "Case study reflection"
+                    note_title = f"{topic.title} case study"
+                elif note.exercise_id:
+                    exercise = next((item for item in topic.exercise_items if item.exercise_id == note.exercise_id), None)
+                    note_type = "Exercise reflection"
+                    note_title = exercise.title if exercise else topic.title
+                notes.append(
+                    {
+                        "note": note,
+                        "topic": topic_lookup.get(note.topic_id),
+                        "note_type": note_type,
+                        "note_title": note_title,
+                    }
+                )
+        return sorted(notes, key=lambda item: item["note"].updated_at, reverse=True)
+
+    def user_activity_dashboard(self, user_id: str) -> dict[str, object]:
+        user = self.get_user(user_id)
+        topic_lookup = {topic.topic_id: topic for topic in self._topics}
+        user_lookup = {member.user_id: member for member in self.list_users()}
+
+        feedback_items = [item for item in self.list_feedback() if item.user_id == user_id]
+        questions = [item for item in self.list_questions() if item.user_id == user_id]
+        suggestions = [item for item in self.list_topic_suggestions() if item.user_id == user_id]
+        notes = self.list_notes_for_user(user_id)
+        threads = self.list_community_threads()
+        started_threads = [thread for thread in threads if thread.user_id == user_id]
+        replied_threads = [thread for thread in threads if any(reply.user_id == user_id for reply in thread.replies)]
+        followed_thread_ids = self.followed_thread_ids_for_user(user_id)
+        followed_threads = [thread for thread in threads if thread.thread_id in followed_thread_ids]
+        supported_threads = [thread for thread in threads if user_id in thread.liked_by]
+        liked_replies = [
+            {"thread": thread, "reply": reply, "author": user_lookup.get(reply.user_id)}
+            for thread in threads
+            for reply in thread.replies
+            if user_id in reply.liked_by
+        ]
+        notifications = self.list_notifications_for_user(user_id)
+        user_replies = [
+            {"thread": thread, "reply": reply}
+            for thread in threads
+            for reply in thread.replies
+            if reply.user_id == user_id
+        ]
+
+        recent_activity: list[dict[str, object]] = []
+        for note_item in notes:
+            note = note_item["note"]
+            recent_activity.append(
+                {
+                    "timestamp": note.updated_at,
+                    "label": note_item["note_type"],
+                    "title": note_item["note_title"],
+                    "detail": note.content[:180],
+                    "link": f"/journal?topic_id={note.topic_id}",
+                }
+            )
+        for item in feedback_items:
+            topic = topic_lookup.get(item.topic_id)
+            recent_activity.append(
+                {
+                    "timestamp": item.created_at,
+                    "label": "Topic rating",
+                    "title": topic.title if topic else item.topic_id,
+                    "detail": f"Rated {item.rating}/5" + (f" and added feedback: {item.comments[:120]}" if item.comments else ""),
+                    "link": f"/journal?topic_id={item.topic_id}",
+                }
+            )
+        for item in questions:
+            topic = topic_lookup.get(item.topic_id)
+            recent_activity.append(
+                {
+                    "timestamp": item.updated_at,
+                    "label": "Question submitted",
+                    "title": topic.title if topic else item.topic_id,
+                    "detail": item.question[:180],
+                    "link": f"/journal?topic_id={item.topic_id}",
+                }
+            )
+        for item in suggestions:
+            recent_activity.append(
+                {
+                    "timestamp": item.created_at,
+                    "label": "Topic suggestion",
+                    "title": item.topic_name,
+                    "detail": item.need_description[:180],
+                    "link": "/",
+                }
+            )
+        for thread in started_threads:
+            recent_activity.append(
+                {
+                    "timestamp": thread.created_at,
+                    "label": "Conversation started",
+                    "title": thread.title,
+                    "detail": thread.content[:180],
+                    "link": f"/community?topic_id={thread.topic_id}" if thread.topic_id else "/community",
+                }
+            )
+        for item in user_replies:
+            recent_activity.append(
+                {
+                    "timestamp": item["reply"].created_at,
+                    "label": "Reply posted",
+                    "title": item["thread"].title,
+                    "detail": item["reply"].content[:180],
+                    "link": f"/community?topic_id={item['thread'].topic_id}" if item["thread"].topic_id else "/community",
+                }
+            )
+
+        recent_activity = sorted(recent_activity, key=lambda item: item["timestamp"], reverse=True)[:12]
+
+        summary = {
+            "conversations_started": len(started_threads),
+            "replies_posted": len(user_replies),
+            "topics_rated": len(feedback_items),
+            "notes_saved": len(notes),
+            "followed_threads": len(followed_threads),
+            "notifications_queued": len(notifications),
+        }
+
+        contributions = {
+            "feedback_items": [
+                {"feedback": item, "topic": topic_lookup.get(item.topic_id)}
+                for item in feedback_items
+            ],
+            "questions": [
+                {"question": item, "topic": topic_lookup.get(item.topic_id)}
+                for item in questions
+            ],
+            "suggestions": suggestions,
+            "supported_threads": supported_threads,
+            "liked_replies": liked_replies,
+        }
+
+        conversations = {
+            "started_threads": started_threads,
+            "replied_threads": replied_threads,
+            "followed_threads": followed_threads,
+            "notifications": notifications[:6],
+        }
+
+        return {
+            "user": user,
+            "summary": summary,
+            "notes": notes,
+            "conversations": conversations,
+            "contributions": contributions,
+            "recent_activity": recent_activity,
+            "user_lookup": user_lookup,
+            "topic_lookup": topic_lookup,
+        }
+
     def list_leader_community_members(self) -> list[PortalUser]:
         return [user for user in self.list_users() if user.role == UserRole.LEADER]
 

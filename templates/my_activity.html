@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeadWise My Activity</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body data-theme="{{ theme }}">
+  <main class="page">
+    <div class="page-header">
+      <div class="header-left">
+        <div class="portal-brandbar">
+          <span class="portal-brand-badge">
+            <img src="https://www.wisetechglobal.com/media/e5ebuyzp/wisetech-global-device-white.svg?height=62&mode=max&width=75" alt="WiseTech Global logo">
+          </span>
+          <div class="portal-brand-copy">
+            <p class="portal-brand-name">WiseTech Global</p>
+            <p class="portal-brand-subtitle">LeadWise</p>
+          </div>
+        </div>
+        <nav class="topnav">
+          <a class="topnav-link" href="/">Home</a>
+          <a class="topnav-link" href="/journal?theme={{ theme }}">Journal</a>
+          <a class="topnav-link" href="/community?theme={{ theme }}">Community</a>
+          <a class="topnav-link active" href="/my-activity?theme={{ theme }}">My Activity</a>
+          {% if current_user.role.value in ["administrator", "people-leadership"] %}
+          <a class="topnav-link" href="/admin?theme={{ theme }}">Administrator</a>
+          <a class="topnav-link" href="/people-leadership?theme={{ theme }}">People Leadership</a>
+          {% endif %}
+        </nav>
+      </div>
+      <div class="page-actions">
+        <div class="theme-switcher theme-switcher-compact">
+          <span class="theme-label">Theme</span>
+          <div class="theme-options">
+            {% for theme_value, theme_label in theme_options %}
+            <a class="theme-chip {% if theme == theme_value %}active{% endif %}" href="/my-activity?theme={{ theme_value }}">{{ theme_label }}</a>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="page-action-row">
+          <details class="action-popover">
+            <summary>Give Feedback</summary>
+            <div class="popover-card">
+              <h3>Give Feedback</h3>
+              <p class="muted">Share what was useful, what needs improving, or where the journal should go deeper.</p>
+              <form action="/web/feedback" method="post">
+                <input type="hidden" name="theme" value="{{ theme }}">
+                <input type="hidden" name="source" value="activity">
+                <label>Topic
+                  <select name="topic_id">
+                    {% for topic in available_topics %}
+                    <option value="{{ topic.topic_id }}">{{ topic.title }}</option>
+                    {% endfor %}
+                  </select>
+                </label>
+                <label>Rating
+                  <select name="rating">
+                    <option value="5">5 - very useful</option>
+                    <option value="4">4 - useful</option>
+                    <option value="3">3 - decent</option>
+                    <option value="2">2 - limited</option>
+                    <option value="1">1 - not useful</option>
+                  </select>
+                </label>
+                <label>Comments
+                  <textarea name="comments" rows="5" placeholder="What landed well? What needs improvement?" required></textarea>
+                </label>
+                <button type="submit">Submit Feedback</button>
+              </form>
+            </div>
+          </details>
+
+          <details class="action-popover">
+            <summary>Ask a Question</summary>
+            <div class="popover-card">
+              <h3>Ask a Question</h3>
+              <p class="muted">Questions submitted here can be reviewed by the people leadership team and answered later.</p>
+              <form action="/web/questions" method="post">
+                <input type="hidden" name="theme" value="{{ theme }}">
+                <input type="hidden" name="source" value="activity">
+                <label>Topic
+                  <select name="topic_id">
+                    {% for topic in available_topics %}
+                    <option value="{{ topic.topic_id }}">{{ topic.title }}</option>
+                    {% endfor %}
+                  </select>
+                </label>
+                <label>Your Question
+                  <textarea name="question" rows="5" placeholder="What are you still unclear about in this topic?" required></textarea>
+                </label>
+                <button type="submit">Send to People Leadership</button>
+              </form>
+            </div>
+          </details>
+
+          <details class="action-popover">
+            <summary>Suggest New Topics</summary>
+            <div class="popover-card">
+              <h3>Suggest New Topics</h3>
+              <p class="muted">Recommend a new topic area, explain what it should cover, and describe why leaders need it in the journal. Your suggestion will go through review, and the team will curate the relevant content and make it available once approved.</p>
+              <form action="/web/topic-suggestions" method="post">
+                <input type="hidden" name="theme" value="{{ theme }}">
+                <input type="hidden" name="source" value="activity">
+                <label>Topic Name
+                  <input type="text" name="topic_name" placeholder="What should the topic be called?" required>
+                </label>
+                <label>Details and Scope
+                  <textarea name="details" rows="4" placeholder="What should this topic cover? Which subtopics or examples would make it valuable?" required></textarea>
+                </label>
+                <label>Why This Is Needed
+                  <textarea name="need_description" rows="4" placeholder="What gap would this fill for leaders? Why does it matter now?" required></textarea>
+                </label>
+                <button type="submit">Send Suggestion</button>
+              </form>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero hero-single hero-activity-compact">
+      <div class="hero-copy portal-hero">
+        <p class="eyebrow">My Activity</p>
+        <div class="hero-title-row">
+          <div class="hero-title-copy">
+            <h1>{{ user.name }}'s activity space.</h1>
+            <p class="lede">Track what you have contributed across LeadWise, revisit conversations you care about, and return to the notes and reflections you have already captured.</p>
+          </div>
+          <div class="hero-panel activity-identity-panel activity-hero-board">
+            <p class="section-kicker">At a glance</p>
+            <div class="activity-summary-tabs">
+              <article class="activity-stat-tab">
+                <span class="activity-stat-label">Conversations</span>
+                <strong>{{ summary.conversations_started }}</strong>
+                <span>started</span>
+              </article>
+              <article class="activity-stat-tab">
+                <span class="activity-stat-label">Replies</span>
+                <strong>{{ summary.replies_posted }}</strong>
+                <span>posted</span>
+              </article>
+              <article class="activity-stat-tab">
+                <span class="activity-stat-label">Ratings</span>
+                <strong>{{ summary.topics_rated }}</strong>
+                <span>saved</span>
+              </article>
+              <article class="activity-stat-tab">
+                <span class="activity-stat-label">Notes</span>
+                <strong>{{ summary.notes_saved }}</strong>
+                <span>saved</span>
+              </article>
+              <article class="activity-stat-tab">
+                <span class="activity-stat-label">Following</span>
+                <strong>{{ summary.followed_threads }}</strong>
+                <span>threads</span>
+              </article>
+              <article class="activity-stat-tab">
+                <span class="activity-stat-label">Alerts</span>
+                <strong>{{ summary.notifications_queued }}</strong>
+                <span>queued</span>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid activity-grid">
+      <article class="card">
+        <p class="section-kicker">My Conversations</p>
+        <div class="activity-section-stack">
+          <div class="activity-subsection">
+            <h3>Started by me</h3>
+            {% if conversations.started_threads %}
+            <div class="stack">
+              {% for thread in conversations.started_threads %}
+              <div class="story-block activity-story">
+                <p class="activity-story-meta">{{ topic_lookup.get(thread.topic_id).title if thread.topic_id and topic_lookup.get(thread.topic_id) else "General conversation" }}</p>
+                <strong>{{ thread.title }}</strong>
+                <p>{{ thread.content }}</p>
+                <a href="/community?theme={{ theme }}{% if thread.topic_id %}&topic_id={{ thread.topic_id }}{% endif %}">Open in Community</a>
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            <p class="muted">You have not started a thread yet.</p>
+            {% endif %}
+          </div>
+
+          <div class="activity-subsection">
+            <h3>I replied here</h3>
+            {% if conversations.replied_threads %}
+            <ul class="chips">
+              {% for thread in conversations.replied_threads %}
+              <li><a href="/community?theme={{ theme }}{% if thread.topic_id %}&topic_id={{ thread.topic_id }}{% endif %}">{{ thread.title }}</a></li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <p class="muted">Your replies will appear here once you join a conversation.</p>
+            {% endif %}
+          </div>
+
+          <div class="activity-subsection">
+            <h3>Following</h3>
+            {% if conversations.followed_threads %}
+            <div class="stack">
+              {% for thread in conversations.followed_threads %}
+              <div class="story-block activity-story">
+                <strong>{{ thread.title }}</strong>
+                <p>{{ thread.content[:160] }}{% if thread.content|length > 160 %}...{% endif %}</p>
+                <a href="/community?theme={{ theme }}{% if thread.topic_id %}&topic_id={{ thread.topic_id }}{% endif %}">Revisit thread</a>
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            <p class="muted">Followed threads will appear here once you subscribe to them.</p>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <p class="section-kicker">My Notes</p>
+        {% if notes %}
+        <div class="stack">
+          {% for item in notes[:8] %}
+          <div class="story-block activity-story">
+            <p class="activity-story-meta">{{ item.note_type }} · {{ item.topic.title if item.topic else item.note.topic_id }}</p>
+            <strong>{{ item.note_title }}</strong>
+            <p>{{ item.note.content }}</p>
+            <a href="/journal?theme={{ theme }}&topic_id={{ item.note.topic_id }}">Open topic</a>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p class="muted">Topic notes, exercise reflections, and case study reflections will be collected here.</p>
+        {% endif %}
+      </article>
+
+      <article class="card">
+        <p class="section-kicker">My Contributions</p>
+        <div class="activity-section-stack">
+          <div class="activity-subsection">
+            <h3>Topic ratings and feedback</h3>
+            {% if contributions.feedback_items %}
+            <div class="stack">
+              {% for item in contributions.feedback_items %}
+              <div class="story-block activity-story">
+                <p class="activity-story-meta">{{ item.topic.title if item.topic else item.feedback.topic_id }}</p>
+                <strong>Rated {{ item.feedback.rating }}/5</strong>
+                <p>{{ item.feedback.comments or "No written comment added." }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            <p class="muted">Once you rate a topic, it will show up here.</p>
+            {% endif %}
+          </div>
+
+          <div class="activity-subsection">
+            <h3>Questions and topic suggestions</h3>
+            {% if contributions.questions or contributions.suggestions %}
+            <div class="stack">
+              {% for item in contributions.questions %}
+              <div class="story-block activity-story">
+                <p class="activity-story-meta">Question · {{ item.topic.title if item.topic else item.question.topic_id }}</p>
+                <strong>{{ item.question.status.value.replace('-', ' ').title() }}</strong>
+                <p>{{ item.question.question }}</p>
+              </div>
+              {% endfor %}
+              {% for item in contributions.suggestions %}
+              <div class="story-block activity-story">
+                <p class="activity-story-meta">Topic suggestion</p>
+                <strong>{{ item.topic_name }}</strong>
+                <p>{{ item.need_description }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            <p class="muted">Your submitted questions and topic ideas will show up here.</p>
+            {% endif %}
+          </div>
+
+          <div class="activity-subsection">
+            <h3>Support and likes</h3>
+            {% if contributions.supported_threads or contributions.liked_replies %}
+            <div class="stack">
+              {% for thread in contributions.supported_threads %}
+              <div class="story-block activity-story">
+                <p class="activity-story-meta">Supported question</p>
+                <strong>{{ thread.title }}</strong>
+                <p>{{ thread.content[:180] }}{% if thread.content|length > 180 %}...{% endif %}</p>
+              </div>
+              {% endfor %}
+              {% for item in contributions.liked_replies %}
+              <div class="story-block activity-story">
+                <p class="activity-story-meta">Liked reply · {{ item.author.name if item.author else "Leader response" }}</p>
+                <strong>{{ item.thread.title }}</strong>
+                <p>{{ item.reply.content }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            <p class="muted">Community support actions and liked replies will appear here.</p>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <p class="section-kicker">Recent Activity</p>
+        {% if recent_activity %}
+        <div class="stack">
+          {% for item in recent_activity %}
+          <div class="story-block activity-story">
+            <p class="activity-story-meta">{{ item.label }} · {{ item.timestamp.strftime("%d %b %Y") }}</p>
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.detail }}</p>
+            <a href="{{ item.link }}{% if '?theme=' not in item.link and '&theme=' not in item.link %}{% if '?' in item.link %}&theme={{ theme }}{% else %}?theme={{ theme }}{% endif %}{% endif %}">Open</a>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p class="muted">Your recent actions across the journal and community will appear here.</p>
+        {% endif %}
+      </article>
+    </section>
+  </main>
+</body>
+</html>

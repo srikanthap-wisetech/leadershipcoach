@@ -6,7 +6,7 @@
   <title>LeadWise</title>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body data-theme="sunrise">
+<body data-theme="{{ theme }}">
   <main class="page page-home">
     <section class="home-hero">
       <div class="home-stage">
@@ -48,6 +48,18 @@
               <p>Join threaded leadership conversations, browse by topic, reply to others, and share what is working in practice.</p>
               <span class="gateway-arrow">Open Community</span>
             </a>
+            <a class="gateway-tile gateway-activity" href="/my-activity?theme={{ theme }}">
+              <p class="section-kicker">My Activity</p>
+              <h3>Return to your own progress</h3>
+              <p>Revisit your notes, followed threads, ratings, topic suggestions, and recent actions across LeadWise.</p>
+              <span class="gateway-arrow">Open My Activity</span>
+            </a>
+            <div class="gateway-tile gateway-actions">
+              <p class="section-kicker">Actions</p>
+              <h3>Share feedback and ideas</h3>
+              <p>Use these quick actions to give feedback, ask a question, or suggest a new topic for the journal.</p>
+              <a class="gateway-arrow" href="/actions?theme={{ theme }}">Open Actions</a>
+            </div>
           </div>
 
           <div class="home-stats">

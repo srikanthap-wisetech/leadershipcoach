@@ -129,13 +129,31 @@ def _community_url(**params: str) -> str:
     return f"/community?{query}" if query else "/community"
 
 
+def _landing_url(**params: str) -> str:
+    cleaned = {key: value for key, value in params.items() if value not in ("", None)}
+    query = urlencode(cleaned)
+    return f"/?{query}" if query else "/"
+
+
+def _actions_url(**params: str) -> str:
+    cleaned = {key: value for key, value in params.items() if value not in ("", None)}
+    query = urlencode(cleaned)
+    return f"/actions?{query}" if query else "/actions"
+
+
+def _my_activity_url(**params: str) -> str:
+    cleaned = {key: value for key, value in params.items() if value not in ("", None)}
+    query = urlencode(cleaned)
+    return f"/my-activity?{query}" if query else "/my-activity"
+
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
 @app.get("/")
-def landing_home(request: Request):
+def landing_home(request: Request, theme: str | None = None):
     current_user = portal.leader_user()
     topics = portal.accessible_topics_for_user(current_user.user_id)
     threads = portal.list_community_threads()
@@ -146,6 +164,33 @@ def landing_home(request: Request):
             "current_user": current_user,
             "topic_count": len(topics),
             "thread_count": len(threads),
+            "available_topics": topics,
+            "theme": theme or "sunrise",
+            "theme_options": [
+                ("sunrise", "Slate"),
+                ("harbor", "Teal"),
+                ("sage", "Stone"),
+            ],
+        },
+    )
+
+
+@app.get("/actions")
+def actions_home(request: Request, theme: str | None = None):
+    current_user = portal.leader_user()
+    topics = portal.accessible_topics_for_user(current_user.user_id)
+    return templates.TemplateResponse(
+        request,
+        "actions.html",
+        {
+            "current_user": current_user,
+            "available_topics": topics,
+            "theme": theme or "sunrise",
+            "theme_options": [
+                ("sunrise", "Slate"),
+                ("harbor", "Teal"),
+                ("sage", "Stone"),
+            ],
         },
     )
 
@@ -241,6 +286,28 @@ def community_home(request: Request, theme: str | None = None, topic_id: str | N
     )
 
 
+@app.get("/my-activity")
+def my_activity_home(request: Request, theme: str | None = None):
+    current_user = portal.leader_user()
+    dashboard = portal.user_activity_dashboard(current_user.user_id)
+    topics = portal.accessible_topics_for_user(current_user.user_id)
+    return templates.TemplateResponse(
+        request,
+        "my_activity.html",
+        {
+            "current_user": current_user,
+            "available_topics": topics,
+            "theme": theme or "sunrise",
+            "theme_options": [
+                ("sunrise", "Slate"),
+                ("harbor", "Teal"),
+                ("sage", "Stone"),
+            ],
+            **dashboard,
+        },
+    )
+
+
 @app.get("/admin")
 def admin_home(request: Request):
     current_user = portal.administrator_user()
@@ -283,7 +350,17 @@ def submit_feedback(
     comments: str = Form(""),
 ):
     portal.add_feedback(user_id=user_id, topic_id=topic_id, rating=rating, comments=comments)
-    redirect_url = _community_url(theme=theme, topic_id=topic_id) if source == "community" else _journal_url(topic_id=topic_id, theme=theme)
+    redirect_url = (
+        _community_url(theme=theme, topic_id=topic_id)
+        if source == "community"
+        else _my_activity_url(theme=theme)
+        if source == "activity"
+        else _actions_url(theme=theme)
+        if source == "actions"
+        else _landing_url(theme=theme)
+        if source == "home"
+        else _journal_url(topic_id=topic_id, theme=theme)
+    )
     return RedirectResponse(url=redirect_url, status_code=303)
 
 
@@ -296,7 +373,17 @@ def submit_question(
     question: str = Form(...),
 ):
     portal.submit_question(user_id=user_id, topic_id=topic_id, question=question)
-    redirect_url = _community_url(theme=theme, topic_id=topic_id) if source == "community" else _journal_url(topic_id=topic_id, theme=theme)
+    redirect_url = (
+        _community_url(theme=theme, topic_id=topic_id)
+        if source == "community"
+        else _my_activity_url(theme=theme)
+        if source == "activity"
+        else _actions_url(theme=theme)
+        if source == "actions"
+        else _landing_url(theme=theme)
+        if source == "home"
+        else _journal_url(topic_id=topic_id, theme=theme)
+    )
     return RedirectResponse(url=redirect_url, status_code=303)
 
 
@@ -316,7 +403,17 @@ def submit_topic_suggestion(
         details=details,
         need_description=need_description,
     )
-    redirect_url = _community_url(theme=theme, topic_id=topic_id) if source == "community" else _journal_url(topic_id=topic_id, theme=theme)
+    redirect_url = (
+        _community_url(theme=theme, topic_id=topic_id)
+        if source == "community"
+        else _my_activity_url(theme=theme)
+        if source == "activity"
+        else _actions_url(theme=theme)
+        if source == "actions"
+        else _landing_url(theme=theme)
+        if source == "home"
+        else _journal_url(topic_id=topic_id, theme=theme)
+    )
     return RedirectResponse(url=redirect_url, status_code=303)
 
 

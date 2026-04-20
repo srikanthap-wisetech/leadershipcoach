@@ -23,6 +23,7 @@
           <a class="topnav-link" href="/">Home</a>
           <a class="topnav-link" href="/journal?theme={{ theme }}">Journal</a>
           <a class="topnav-link active" href="/community?theme={{ theme }}">Community</a>
+          <a class="topnav-link" href="/my-activity?theme={{ theme }}">My Activity</a>
           {% if current_user.role.value in ["administrator", "people-leadership"] %}
           <a class="topnav-link" href="/admin?theme={{ theme }}">Administrator</a>
           <a class="topnav-link" href="/people-leadership?theme={{ theme }}">People Leadership</a>

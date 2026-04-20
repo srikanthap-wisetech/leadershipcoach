@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeadWise Actions</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body data-theme="{{ theme }}">
+  <main class="page">
+    <div class="page-header">
+      <div class="header-left">
+        <div class="portal-brandbar">
+          <span class="portal-brand-badge">
+            <img src="https://www.wisetechglobal.com/media/e5ebuyzp/wisetech-global-device-white.svg?height=62&mode=max&width=75" alt="WiseTech Global logo">
+          </span>
+          <div class="portal-brand-copy">
+            <p class="portal-brand-name">WiseTech Global</p>
+            <p class="portal-brand-subtitle">LeadWise</p>
+          </div>
+        </div>
+        <nav class="topnav">
+          <a class="topnav-link" href="/">Home</a>
+          <a class="topnav-link" href="/journal?theme={{ theme }}">Journal</a>
+          <a class="topnav-link" href="/community?theme={{ theme }}">Community</a>
+          <a class="topnav-link" href="/my-activity?theme={{ theme }}">My Activity</a>
+          <a class="topnav-link active" href="/actions?theme={{ theme }}">Actions</a>
+          {% if current_user.role.value in ["administrator", "people-leadership"] %}
+          <a class="topnav-link" href="/admin?theme={{ theme }}">Administrator</a>
+          <a class="topnav-link" href="/people-leadership?theme={{ theme }}">People Leadership</a>
+          {% endif %}
+        </nav>
+      </div>
+      <div class="page-actions">
+        <div class="theme-switcher theme-switcher-compact">
+          <span class="theme-label">Theme</span>
+          <div class="theme-options">
+            {% for theme_value, theme_label in theme_options %}
+            <a class="theme-chip {% if theme == theme_value %}active{% endif %}" href="/actions?theme={{ theme_value }}">{{ theme_label }}</a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero hero-single">
+      <div class="hero-copy portal-hero">
+        <p class="eyebrow">LeadWise Actions</p>
+        <div class="hero-title-row">
+          <div class="hero-title-copy">
+            <h1>Share feedback, questions, and new ideas.</h1>
+            <p class="lede">This page brings together the three main contribution flows in one place, so leaders can respond without jumping through popups.</p>
+          </div>
+          <div class="hero-panel">
+            <p class="section-kicker">What happens next</p>
+            <strong>Feedback and questions are collected centrally.</strong>
+            <p class="muted">Topic suggestions go through review and, once approved, the team curates the content before publishing it into LeadWise.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid actions-grid">
+      <article class="card action-form-card">
+        <p class="section-kicker">Give Feedback</p>
+        <h3>Tell us what is working and what needs improving.</h3>
+        <p class="muted">Share what was useful, what needs improving, or where the journal should go deeper.</p>
+        <form action="/web/feedback" method="post">
+          <input type="hidden" name="theme" value="{{ theme }}">
+          <input type="hidden" name="source" value="actions">
+          <label>Topic
+            <select name="topic_id">
+              {% for topic in available_topics %}
+              <option value="{{ topic.topic_id }}">{{ topic.title }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>Rating
+            <select name="rating">
+              <option value="5">5 - Excellent</option>
+              <option value="4">4 - Strong</option>
+              <option value="3">3 - Useful</option>
+              <option value="2">2 - Needs work</option>
+              <option value="1">1 - Not useful</option>
+            </select>
+          </label>
+          <label>Comments
+            <textarea name="comments" rows="6" placeholder="What should we keep, improve, or clarify?"></textarea>
+          </label>
+          <button type="submit">Send Feedback</button>
+        </form>
+      </article>
+
+      <article class="card action-form-card">
+        <p class="section-kicker">Ask a Question</p>
+        <h3>Ask for help on a topic that matters right now.</h3>
+        <p class="muted">Questions submitted here can be reviewed by the people leadership team and answered later.</p>
+        <form action="/web/questions" method="post">
+          <input type="hidden" name="theme" value="{{ theme }}">
+          <input type="hidden" name="source" value="actions">
+          <label>Topic
+            <select name="topic_id">
+              {% for topic in available_topics %}
+              <option value="{{ topic.topic_id }}">{{ topic.title }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>Your Question
+            <textarea name="question" rows="6" placeholder="What would you like help with?" required></textarea>
+          </label>
+          <button type="submit">Submit Question</button>
+        </form>
+      </article>
+
+      <article class="card action-form-card">
+        <p class="section-kicker">Suggest New Topics</p>
+        <h3>Recommend something the journal should cover next.</h3>
+        <p class="muted">Your suggestion will go through review, and the team will curate the relevant content and make it available once approved.</p>
+        <form action="/web/topic-suggestions" method="post">
+          <input type="hidden" name="theme" value="{{ theme }}">
+          <input type="hidden" name="source" value="actions">
+          <label>Topic Name
+            <input type="text" name="topic_name" placeholder="What should the topic be called?" required>
+          </label>
+          <label>Details
+            <textarea name="details" rows="4" placeholder="What should this topic include?" required></textarea>
+          </label>
+          <label>Need for this topic
+            <textarea name="need_description" rows="4" placeholder="Why would this matter for leaders?" required></textarea>
+          </label>
+          <button type="submit">Submit Suggestion</button>
+        </form>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

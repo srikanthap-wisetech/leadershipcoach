@@ -75,9 +75,30 @@
       "wisetech-leadership-foundations"
     ]
   },
-  "leader_feedback": {},
+  "leader_feedback": {
+    "e83c5511-ca46-407e-9ab5-799752e04f22": {
+      "feedback_id": "e83c5511-ca46-407e-9ab5-799752e04f22",
+      "user_id": "leader-alex",
+      "topic_id": "leadership-styles",
+      "rating": 4,
+      "comments": "test",
+      "created_at": "2026-04-20T04:59:31.842969Z"
+    }
+  },
   "topic_suggestions": {},
-  "topic_questions": {},
+  "topic_questions": {
+    "bb2d91b5-5980-422c-9e08-bfb3e0e8cbb9": {
+      "question_id": "bb2d91b5-5980-422c-9e08-bfb3e0e8cbb9",
+      "user_id": "leader-alex",
+      "topic_id": "leadership-styles",
+      "question": "test question",
+      "status": "open",
+      "assigned_to": null,
+      "answer": null,
+      "created_at": "2026-04-20T04:50:46.645114Z",
+      "updated_at": "2026-04-20T04:50:46.645118Z"
+    }
+  },
   "leader_notes": {},
   "community_threads": {
     "24eef098-37b2-41df-a056-4af95ca9c5dd": {

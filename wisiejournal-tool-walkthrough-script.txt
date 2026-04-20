@@ -4,7 +4,11 @@ Hello everyone, and welcome to LeadWise.
 
 LeadWise is a leadership learning portal built around WiseTech Leadership Foundations. It combines structured leadership learning, reflection, and community discussion in one place, so leaders can keep returning to it over time.
 
-When I land on the homepage, the first thing I see is a branded LeadWise landing page with the WiseTech logo, the leadership mantra, and clear entry points into the journal and the community. From there, I can move into the experience I need in the moment.
+When I land on the homepage, the first thing I see is a branded LeadWise landing page with the WiseTech logo, the leadership mantra, and clear entry points into the journal, the community, My Activity, and Actions. From there, I can move into the experience I need in the moment.
+
+I can also open My Activity, which gives me a personal view of my notes, conversations, ratings, followed threads, and recent actions across the portal.
+
+There is also a dedicated Actions page, which brings together Give Feedback, Ask a Question, and Suggest New Topics in one place so leaders can contribute easily.
 
 In the journal, all leadership topics are visible in a clean navigation panel, which makes it easy to move between topics like Leadership Styles, Delegation, Building Trust, Empathy and Emotional Intelligence, Psychological Safety, or Giving and Receiving Feedback.
 
@@ -24,7 +28,7 @@ The community includes a conversation search as well, which makes it easier to f
 
 Leaders can also follow a thread they care about. When a new reply is added to that conversation, the platform can queue an email-style alert for the followers of that thread, which makes it easier for discussions to stay active over time.
 
-Another important feature is topic suggestions. If a leader feels an important topic is missing, they can suggest a new one directly from the portal. That suggestion then goes through a review workflow, where administrators and the people leadership team can review it, assign it, approve it, and eventually curate content for future release.
+Another important feature is topic suggestions. If a leader feels an important topic is missing, they can suggest a new one directly from the Actions page. That suggestion then goes through a review workflow, where administrators and the people leadership team can review it, assign it, approve it, and eventually curate content for future release.
 
 Overall, LeadWise is designed to be more than a content library. It is a leadership platform that combines structured learning, reflection, shared discussion, and continuous improvement.
 

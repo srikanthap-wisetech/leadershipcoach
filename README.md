@@ -7,6 +7,8 @@ LeadWise is a web-first leadership learning portal built around WiseTech Leaders
 LeadWise currently supports:
 
 - a branded landing page with entry points into `Journal` and `Community`
+- a dedicated `Actions` page for feedback, questions, and new topic suggestions
+- a personal `My Activity` page that gathers each leader's conversations, notes, contributions, followed threads, and recent actions
 - a topic-first leadership journal with rich topic pages
 - journal search to quickly find topics by title or content
 - topic summaries, deeper subtopics, practical workplace examples, case studies, quizzes, exercises, notes, suggested courses, and recommended reading
@@ -26,10 +28,20 @@ The landing page is the front door to LeadWise. It now includes:
 
 - WiseTech branding and logo
 - a simple path into the journal or community
+- direct entry points into `Journal`, `Community`, `My Activity`, and `Actions`
 - the WiseTech leadership mantra
 - a quieter leadership-themed supporting graphic
 
-### 2. LeadWise Journal
+### 2. LeadWise Actions
+
+The `Actions` page is a dedicated place for leader input. It includes:
+
+- a shared `Give Feedback` form
+- a shared `Ask a Question` form
+- a shared `Suggest New Topics` form
+- the same backend submission flows used elsewhere in the portal, with a cleaner single-page experience
+
+### 3. LeadWise Journal
 
 The journal is the main learning space for leaders. It includes:
 
@@ -45,7 +57,7 @@ The journal is the main learning space for leaders. It includes:
 - topic notes, case-study notes, and exercise notes
 - topic ratings with average score display
 
-### 3. LeadWise Community
+### 4. LeadWise Community
 
 The community is a thread-based discussion space for leaders. It includes:
 
@@ -58,7 +70,18 @@ The community is a thread-based discussion space for leaders. It includes:
 - queued email notifications for followed conversations
 - a shared set of actions for feedback, questions, and topic suggestions
 
-### 4. Administrator and People Leadership workflows
+### 5. My Activity
+
+The `My Activity` page is a personal workspace for leaders. It includes:
+
+- summary cards for conversations, replies, ratings, notes, followed threads, and queued alerts
+- a view of conversations started, replied to, or followed
+- saved topic notes, case study reflections, and exercise reflections
+- submitted ratings, questions, and topic suggestions
+- supported questions and liked replies
+- a recent activity timeline with links back into the journal or community
+
+### 6. Administrator and People Leadership workflows
 
 The portal includes internal workflow pages for:
 
@@ -71,15 +94,14 @@ The portal includes internal workflow pages for:
 
 ## Roles
 
-- `Leader`: reads journal content, completes quizzes and exercises, saves notes, joins community conversations, rates topics, and submits feedback/questions/topic suggestions.
-- `Leader`: reads journal content, completes quizzes and exercises, saves notes, joins community conversations, follows threads, rates topics, and submits feedback/questions/topic suggestions.
+- `Leader`: reads journal content, completes quizzes and exercises, saves notes, joins community conversations, follows threads, rates topics, reviews personal activity in `My Activity`, and uses `Actions` to submit feedback, questions, and topic suggestions.
 - `Administrator`: grants access, reviews feedback, routes questions, and manages suggested-topic workflow.
 - `People leadership team`: answers submitted questions and reviews/approves suggested topics with content guidance.
 
 ## Current workspace structure
 
 - `app/`: FastAPI app, portal logic, services, and storage
-- `templates/`: landing page, journal, community, admin, and people leadership templates
+- `templates/`: landing page, actions page, journal, community, my activity, admin, and people leadership templates
 - `static/`: shared styling for the portal
 - `data/`: local persistent JSON data and extracted journal content
 - `content/`: grounded leadership content source files
@@ -103,6 +125,8 @@ http://127.0.0.1:8000/
 ## Current routes
 
 - `/` landing page
+- `/actions` shared actions page
+- `/my-activity` personal activity dashboard
 - `/journal` leadership journal
 - `/community` leader community
 - `/admin` administrator workflow page

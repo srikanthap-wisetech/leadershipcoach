@@ -7,10 +7,16 @@ Hello everyone, and welcome to LeadWise.
 LeadWise is a leadership learning portal built around WiseTech Leadership Foundations. It brings together structured learning, reflection, and community discussion in one place, so leaders can return to it as an ongoing working tool rather than a one-time course.
 
 [On screen: homepage]
-When I arrive on the homepage, I start on a branded landing page. Here I can immediately see the WiseTech identity, the leadership mantra, and two clear entry points: Journal and Community.
+When I arrive on the homepage, I start on a branded landing page. Here I can immediately see the WiseTech identity, the leadership mantra, and clear entry points into Journal, Community, My Activity, and Actions.
 
 [Pause]
-That makes the experience feel simple from the start. If I want structured learning, I go into the journal. If I want to learn with peers, I move into the community.
+That makes the experience feel simple from the start. If I want structured learning, I go into the journal. If I want to learn with peers, I move into the community. If I want to respond, share feedback, or suggest something new, I can open the dedicated Actions page.
+
+[Pause on landing page tiles]
+I can also move into My Activity. That page brings together my own notes, conversations, topic ratings, followed threads, and recent actions, so I can quickly pick up where I left off.
+
+[Pause on Actions]
+The Actions page brings together three shared forms in one place: Give Feedback, Ask a Question, and Suggest New Topics. That means leaders have one clean space to contribute without relying on small popups or page-specific controls.
 
 [Click into Journal]
 When I open the journal, I can see all leadership topics on the left-hand side. This makes it easy to move between topics depending on what is most relevant to me as a leader right now.
@@ -54,8 +60,8 @@ The community also includes a search bar, which makes it easier to find conversa
 [Pause on follow thread]
 Leaders can also follow a thread they care about. That means when a new reply is added, the platform can queue an email-style alert for the followers of that conversation. This gives the community a much better chance of staying active, because people do not need to keep checking the page manually to know that something changed.
 
-[Pause on Suggest New Topics]
-Another important feature is the ability to suggest new topics. If leaders feel there is an important capability or challenge not yet covered, they can recommend it directly through the portal.
+[Pause on Actions page]
+Another important feature is the ability to suggest new topics. If leaders feel there is an important capability or challenge not yet covered, they can recommend it directly through the Actions page.
 
 [Confident tone]
 That suggestion then goes through a review and approval workflow, where administrators and the people leadership team can assess it, shape the content, and publish it once it is ready.
