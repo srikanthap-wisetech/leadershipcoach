@@ -611,5 +611,22 @@
       });
     });
   </script>
+  <script>
+    document.querySelectorAll(".page-action-row").forEach((row) => {
+      const popovers = Array.from(row.querySelectorAll(".action-popover"));
+      popovers.forEach((popover) => {
+        popover.addEventListener("toggle", () => {
+          if (!popover.open) {
+            return;
+          }
+          popovers.forEach((other) => {
+            if (other !== popover) {
+              other.open = false;
+            }
+          });
+        });
+      });
+    });
+  </script>
 </body>
 </html>

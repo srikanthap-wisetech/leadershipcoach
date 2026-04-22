@@ -41,39 +41,45 @@
     }
   },
   "topic_access": {
-    "leader-alex": [
-      "building-trust",
-      "cross-cultural-leadership",
-      "delegation",
-      "empathy-and-emotional-intelligence",
-      "giving-and-receiving-feedback",
-      "leadership-styles",
-      "psychological-safety-diversity-allyship",
-      "transition-to-leadership",
-      "wisetech-leadership-foundations"
-    ],
-    "leader-priya": [
-      "building-trust",
-      "cross-cultural-leadership",
-      "delegation",
-      "empathy-and-emotional-intelligence",
-      "giving-and-receiving-feedback",
-      "leadership-styles",
-      "psychological-safety-diversity-allyship",
-      "transition-to-leadership",
-      "wisetech-leadership-foundations"
-    ],
-    "leader-marcus": [
-      "building-trust",
-      "cross-cultural-leadership",
-      "delegation",
-      "empathy-and-emotional-intelligence",
-      "giving-and-receiving-feedback",
-      "leadership-styles",
-      "psychological-safety-diversity-allyship",
-      "transition-to-leadership",
-      "wisetech-leadership-foundations"
-    ]
+    "leader-alex": {
+      "topics": [
+        "building-trust",
+        "cross-cultural-leadership",
+        "delegation",
+        "empathy-and-emotional-intelligence",
+        "giving-and-receiving-feedback",
+        "leadership-styles",
+        "psychological-safety-diversity-allyship",
+        "transition-to-leadership",
+        "wisetech-leadership-foundations"
+      ]
+    },
+    "leader-priya": {
+      "topics": [
+        "building-trust",
+        "cross-cultural-leadership",
+        "delegation",
+        "empathy-and-emotional-intelligence",
+        "giving-and-receiving-feedback",
+        "leadership-styles",
+        "psychological-safety-diversity-allyship",
+        "transition-to-leadership",
+        "wisetech-leadership-foundations"
+      ]
+    },
+    "leader-marcus": {
+      "topics": [
+        "building-trust",
+        "cross-cultural-leadership",
+        "delegation",
+        "empathy-and-emotional-intelligence",
+        "giving-and-receiving-feedback",
+        "leadership-styles",
+        "psychological-safety-diversity-allyship",
+        "transition-to-leadership",
+        "wisetech-leadership-foundations"
+      ]
+    }
   },
   "leader_feedback": {
     "e83c5511-ca46-407e-9ab5-799752e04f22": {

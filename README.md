@@ -19,6 +19,7 @@ LeadWise currently supports:
 - a suggested-topic workflow from leader submission through administrator review and people leadership approval
 - queued email-style alerts for followed threads when new replies are added
 - local persistence for feedback, questions, notes, goals, issues, community threads, follow records, notification queue items, and workflow state
+- optional PostgreSQL-backed persistence via `DATABASE_URL`, with JSON bootstrap support for migration
 
 ## Main experiences
 
@@ -101,6 +102,8 @@ The portal includes internal workflow pages for:
 ## Current workspace structure
 
 - `app/`: FastAPI app, portal logic, services, and storage
+- `.github/workflows/`: deployment automation
+- `azure/`: Azure App Service settings templates and deployment notes
 - `templates/`: landing page, actions page, journal, community, my activity, admin, and people leadership templates
 - `static/`: shared styling for the portal
 - `data/`: local persistent JSON data and extracted journal content
@@ -108,12 +111,39 @@ The portal includes internal workflow pages for:
 - `docs/`: product and solution notes
 - `teams/`: future Teams integration assets kept for later
 
+## Production deployment path
+
+The recommended production target for LeadWise is:
+
+- Azure App Service (Linux) for the FastAPI app
+- Azure Database for PostgreSQL Flexible Server for persistent data
+- Microsoft Entra ID for SSO and role-based access
+- Azure Key Vault for secrets
+- Application Insights for monitoring
+
+This workspace now includes:
+
+- `startup.sh` for a production Gunicorn/Uvicorn startup path
+- environment-variable support for deployment-friendly settings such as `APP_ENVIRONMENT`, `APP_BASE_URL`, `WEB_CONCURRENCY`, `DATABASE_URL`, and `LEADWISE_DATA_DIR`
+- `.github/workflows/deploy-azure-appservice.yml` for GitHub Actions deployment to Azure App Service
+- `azure/appsettings.production.sample.json` as a production App Service settings template
+- `azure/provision-appservice.ps1` as a starter provisioning script for Azure resources
+- deployment docs:
+  - `docs/production-architecture.md`
+  - `docs/deployment-checklist.md`
+
 ## Local startup
 
 After installing dependencies:
 
 ```powershell
 python -m uvicorn app.main:app --reload
+```
+
+For a production-style local start, after reinstalling dependencies:
+
+```powershell
+gunicorn --workers 2 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 app.main:app
 ```
 
 Then open:
@@ -139,6 +169,11 @@ LeadWise stores local app state in:
 - `data/leadwise-data.json`
 
 It also includes a compatibility path from the older `wisecoach-data.json` store so existing local data is not lost.
+
+For production-oriented environments, LeadWise can now use PostgreSQL-backed persistence by setting:
+
+- `DATABASE_URL`
+- optional `BOOTSTRAP_JSON_TO_DATABASE=true` to seed PostgreSQL from the current JSON store on first startup
 
 ## Future direction
 
